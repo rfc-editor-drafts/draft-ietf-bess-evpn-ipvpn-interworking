@@ -1627,7 +1627,7 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
 <dt id="section-3-4.7">Composite Domain:</dt>
         <dd style="margin-left: 1.5em" id="section-3-4.8">a domain in which multiple control plane ISF
           SAFIs, i.e., IPVPN and/or EVPN, are used and which is composed of
-          regular PEs and composite PEs; see <a href="#ure-interworking-composite-pe-example" class="auto internal xref">Figure 2</a>.<a href="#section-3-4.8" class="pilcrow">¶</a>
+          regular PEs and composite PEs; see below.<a href="#section-3-4.8" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-4.9">Composite PE:</dt>
@@ -1640,11 +1640,11 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
           and to an Route Reflector (RR) <span>[<a href="#RFC4456" class="cite xref">RFC4456</a>]</span> using both
           IPVPN and EVPN ISF routes (assuming the same RR is used for IPVPN
           and EVPN). A Composite PE implements the procedures defined in <a href="#sect-7" class="auto internal xref">Section 7</a>.<a href="#section-3-4.10.1" class="pilcrow">¶</a></p>
-<p id="section-3-4.10.2">Example:<a href="#ure-interworking-composite-pe-example" class="auto internal xref">Figure 2</a>
-          shows a scenario where PE1 is a composite PE since PE1 has EVPN and
-          another ISF SAFI enabled to the same route-reflector, and PE1
-          advertises a given IP prefix IPn/x twice: one using EVPN and another
-          one using ISF SAFI 128. PE2 and PE3 are not composite PEs.<a href="#section-3-4.10.2" class="pilcrow">¶</a></p>
+<p id="section-3-4.10.2">Example: <a href="#ure-interworking-composite-pe-example" class="auto internal xref">Figure 2</a>
+          shows a scenario where PE1 is a composite PE, since PE1 has EVPN and
+          another ISF SAFI enabled to the same Route Reflector, and PE1
+          advertises a given IP prefix IPn/x twice: once using EVPN and once
+          using ISF SAFI 128. PE2 and PE3 are not composite PEs.<a href="#section-3-4.10.2" class="pilcrow">¶</a></p>
 <span id="name-interworking-composite-pe-e"></span><div id="ure-interworking-composite-pe-example">
 <figure id="figure-2">
             <div class="alignLeft art-text artwork" id="section-3-4.10.3.1">
@@ -1661,7 +1661,7 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
                  Composite</pre>
 </div>
 <figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
-<a href="#name-interworking-composite-pe-e" class="selfRef">Interworking composite PE example</a>
+<a href="#name-interworking-composite-pe-e" class="selfRef">Interworking Composite PE Example</a>
             </figcaption></figure>
 </div>
 </dd>
@@ -1670,8 +1670,8 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
         <dd style="margin-left: 1.5em" id="section-3-4.12">
           <p id="section-3-4.12.1">An Interworking PE that simultaneously
           performs the functions of both a Composite PE and a Gateway PE. This
-          type of PE is connected to two or more domains: one (or more)
-          regular domain and one (or more) composite domain. It operates as
+          type of PE is connected to two or more domains: one or more
+          regular domains and one or more composite domains. It operates as
           follows:<a href="#section-3-4.12.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3-4.12.2.1">
@@ -1687,13 +1687,13 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
           </ul>
 <p id="section-3-4.12.3">This functionality is particularly
           useful in scenarios where a tenant network spans multiple domains
-          using different ISF SAFIs (e.g., IPVPN, and EVPN), and where
+          using different ISF SAFIs (e.g., IPVPN and EVPN) and where
           any-to-any tenant connectivity is required. In such deployments,
           maintaining consistent end-to-end control plane behavior across
           domains is desirable when feasible.<a href="#section-3-4.12.3" class="pilcrow">¶</a></p>
-<p id="section-3-4.12.4"><strong>Example:</strong>
-            <a href="#interworking-gateway-composite" class="auto internal xref">Figure 3</a> illustrates an
-          example where PE1 is a composite/gateway PE.<a href="#section-3-4.12.4" class="pilcrow">¶</a></p>
+<p id="section-3-4.12.4">Example:
+          <a href="#interworking-gateway-composite" class="auto internal xref">Figure 3</a> illustrates a
+          scenario where PE1 is a composite/gateway PE.<a href="#section-3-4.12.4" class="pilcrow">¶</a></p>
 <span id="name-interworking-composite-gate"></span><div id="interworking-gateway-composite">
 <figure id="figure-3">
             <div class="alignLeft art-text artwork" id="section-3-4.12.5.1">
@@ -1710,7 +1710,7 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
         Composite/Gateway</pre>
 </div>
 <figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
-<a href="#name-interworking-composite-gate" class="selfRef">Interworking composite gateway PE example</a>
+<a href="#name-interworking-composite-gate" class="selfRef">Interworking Composite/Gateway PE Example</a>
             </figcaption></figure>
 </div>
 </dd>
@@ -1725,17 +1725,17 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
           instance. The PEs in a domain may reside within the same or in
           different Autonomous Systems, and a single Autonomous System may
           also encompass multiple domains.<a href="#section-3-4.14.1" class="pilcrow">¶</a></p>
-<p id="section-3-4.14.2"><strong>Example 1:</strong>
-            <a href="#ure-multiple-domain-dci-example" class="auto internal xref">Figure 4</a> depicts an example
+<p id="section-3-4.14.2">Example 1:
+          <a href="#ure-multiple-domain-dci-example" class="auto internal xref">Figure 4</a> depicts a scenario
           where Tenant Systems TS1 and TS2 belong to the same tenant, and they
           are located in different Data Centers that are connected by gateway
           PEs (see the gateway PE definition later). These gateway PEs use
           IPVPN in the WAN. When TS1 sends traffic to TS2, the intermediate
           routers between PE1 and PE2 require a tenant IP lookup in their
-          IP-VRFs so that the packets can be forwarded. In this example there
+          IP-VRFs so that the packets can be forwarded. In this example, there
           are three different domains. The gateway PEs connect the EVPN
           domains to the IPVPN domain.<a href="#section-3-4.14.2" class="pilcrow">¶</a></p>
-<span id="name-multiple-domain-dci-example"></span><div id="ure-multiple-domain-dci-example">
+<span id="name-multiple-domain-data-center"></span><div id="ure-multiple-domain-dci-example">
 <figure id="figure-4">
             <div class="alignLeft art-text artwork" id="section-3-4.14.3.1">
 <pre>
@@ -1754,12 +1754,12 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
         &lt;---------------&gt; &lt;------------&gt; &lt;----------------&gt;</pre>
 </div>
 <figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
-<a href="#name-multiple-domain-dci-example" class="selfRef">Multiple domain DCI example</a>
+<a href="#name-multiple-domain-data-center" class="selfRef">Multiple Domain Data Center Interconnects (DCIs) Example</a>
             </figcaption></figure>
 </div>
-<p id="section-3-4.14.4"><strong>Example 2:</strong> <a href="#ure-single-domain-dci-example" class="auto internal xref">Figure 5</a>
-          illustrates a similar example, but PE1 and PE2 are now connected by
-          a BGP-LU (BGP Labeled Unicast) tunnel, and they have a BGP peer
+<p id="section-3-4.14.4">Example 2: <a href="#ure-single-domain-dci-example" class="auto internal xref">Figure 5</a>
+          illustrates a similar scenario, but PE1 and PE2 are now connected by
+          a BGP Labeled Unicast (BGP-LU) tunnel, and they have a BGP peer
           relationship for EVPN. Contrary to Example 1, there is no need for
           tenant IP lookups on the intermediate routers in order to forward
           packets between PE1 and PE2. Therefore, there is only one domain in
@@ -1788,17 +1788,17 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
         &lt;--------------------DOMAIN-1---------------------&gt;</pre>
 </div>
 <figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
-<a href="#name-single-domain-dci-example" class="selfRef">Single domain DCI example</a>
+<a href="#name-single-domain-dci-example" class="selfRef">Single Domain DCI Example</a>
             </figcaption></figure>
 </div>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-4.15">Ethernet Tag:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-4.16">used to represent a Broadcast Domain <span>[<a href="#RFC7432" class="cite xref">RFC7432</a>]</span>.<a href="#section-3-4.16" class="pilcrow">¶</a>
+        <dd style="margin-left: 1.5em" id="section-3-4.16">Used to represent a Broadcast Domain <span>[<a href="#RFC7432" class="cite xref">RFC7432</a>]</span>.<a href="#section-3-4.16" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-4.17">EVI:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-4.18">an EVPN Instance spanning the Provider Edge devices
+        <dd style="margin-left: 1.5em" id="section-3-4.18">An EVPN Instance spanning the PE devices
           participating in that EVPN <span>[<a href="#RFC7432" class="cite xref">RFC7432</a>]</span>.<a href="#section-3-4.18" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
@@ -1807,12 +1807,12 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
           <p id="section-3-4.20.1">An Interworking PE that connects two or more distinct
           domains, where each domain may be either a regular domain or a
           composite domain. A Gateway PE may establish either IBGP (Internal
-          BGP <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>) or EBGP (External BGP <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>) sessions with peers in the connected domains.
+          BGP) <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span> or EBGP (External BGP) <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span> sessions with peers in the connected domains.
           Depending on its configuration, the Gateway PE performs one of the
           following functions:<a href="#section-3-4.20.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3-4.20.2.1">
-              <p id="section-3-4.20.2.1.1">Re-originates ISF routes using the same ISF SAFI, between the
+              <p id="section-3-4.20.2.1.1">Re-originates ISF routes using the same ISF SAFI between the
               connected domains.<a href="#section-3-4.20.2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3-4.20.2.2">
@@ -1822,15 +1822,15 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
           </ul>
 <p id="section-3-4.20.3">A Gateway PE follows the procedures defined in <a href="#sect-8" class="auto internal xref">Section 8</a>. A gateway PE interconnects multiple domains. If
           the gateway PE is configured to use D-PATH, each domain is
-          identified by a DOMAIN-ID and these DOMAIN-IDs are encoded in the
-          D-PATH and are included in ISF SAFI route advertisements. The
+          identified by a DOMAIN-ID, and these DOMAIN-IDs are encoded in the
+          D-PATH and included in ISF SAFI route advertisements. The
           structure and behavior of the D-PATH attribute are described in
           <a href="#sect-4" class="auto internal xref">Section 4</a>.<a href="#section-3-4.20.3" class="pilcrow">¶</a></p>
-<p id="section-3-4.20.4"><strong>Example:</strong> <a href="#ure-interworking-gateway-pe-example" class="auto internal xref">Figure 6</a> illustrates an
-          example where PE1 is a gateway PE since the EVPN and IPVPN SAFIs are
+<p id="section-3-4.20.4">Example: <a href="#ure-interworking-gateway-pe-example" class="auto internal xref">Figure 6</a> illustrates a
+          scenario where PE1 is a gateway PE since the EVPN and IPVPN SAFIs are
           enabled on different BGP peers, and a given local IP prefix IPn/x is
           sent to both BGP peers for the same tenant. PE2 and PE1 are in one
-          domain and PE3 and PE1 are in another domain.<a href="#section-3-4.20.4" class="pilcrow">¶</a></p>
+          domain, and PE3 and PE1 are in another domain.<a href="#section-3-4.20.4" class="pilcrow">¶</a></p>
 <span id="name-interworking-gateway-pe-exa"></span><div id="ure-interworking-gateway-pe-example">
 <figure id="figure-6">
             <div class="alignLeft art-text artwork" id="section-3-4.20.5.1">
@@ -1842,7 +1842,7 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
                                 Gateway</pre>
 </div>
 <figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
-<a href="#name-interworking-gateway-pe-exa" class="selfRef">Interworking gateway PE example</a>
+<a href="#name-interworking-gateway-pe-exa" class="selfRef">Interworking Gateway PE Example</a>
             </figcaption></figure>
 </div>
 </dd>
@@ -1851,7 +1851,7 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
         <dd style="margin-left: 1.5em" id="section-3-4.22">
           <p id="section-3-4.22.1">A PE that is capable of advertising a given IP
           prefix using one or more of the following route types: an EVPN
-          Inter-Subnet Forwarding (ISF) route, either an EVPN MAC/IP
+          ISF route, either an EVPN MAC/IP
           Advertisement route or an EVPN IP Prefix route, and an IPVPN ISF
           route. An Interworking PE maintains a single IP-VRF per tenant and
           zero, one, or more MAC-VRFs per tenant. Each MAC-VRF may include one
@@ -1869,27 +1869,27 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
 <p id="section-3-4.22.3">These two functions may be implemented independently on a
           per-tenant basis and may also coexist for the same tenant on a
           single PE.<a href="#section-3-4.22.3" class="pilcrow">¶</a></p>
-<p id="section-3-4.22.4"><strong>Example:</strong> <a href="#evpn-ipvpn-interworking-pe" class="auto internal xref">Figure 1</a> shows an interworking PE,
+<p id="section-3-4.22.4">Example: <a href="#evpn-ipvpn-interworking-pe" class="auto internal xref">Figure 1</a> shows an interworking PE
           where ISF SAFIs are enabled. IP-VRF1 and MAC-VRF1 are instantiated
-          on the PE, and together provide inter-subnet forwarding for the
+          on the PE and together provide inter-subnet forwarding for the
           tenant.<a href="#section-3-4.22.4" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-4.23">IP-VRF:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-4.24">an IP Virtual Routing and Forwarding table, as defined in
-          <span>[<a href="#RFC4364" class="cite xref">RFC4364</a>]</span><span>[<a href="#RFC9135" class="cite xref">RFC9135</a>]</span>. Route
+        <dd style="margin-left: 1.5em" id="section-3-4.24">An IP Virtual Routing and Forwarding table, as defined in
+          <span>[<a href="#RFC4364" class="cite xref">RFC4364</a>]</span> and <span>[<a href="#RFC9135" class="cite xref">RFC9135</a>]</span>. Route
           Distinguisher and Route Target(s) are required properties of an
           IP-VRF. An IP-VRF is programmed with ISF routes.<a href="#section-3-4.24" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-4.25">IRB:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-4.26">Integrated Routing and Bridging interface <span>[<a href="#RFC9135" class="cite xref">RFC9135</a>]</span>. It refers to the logical interface that connects
-          a BT to an IP-VRF and allows to forward packets with destination in
+        <dd style="margin-left: 1.5em" id="section-3-4.26">An Integrated Routing and Bridging interface <span>[<a href="#RFC9135" class="cite xref">RFC9135</a>]</span>. It refers to the logical interface that connects
+          a BT to an IP-VRF and allows the forwarding of packets with the destination in
           a different subnet.<a href="#section-3-4.26" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-4.27">ISF route:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-4.28">an Inter-Subnet Forwarding route for a given prefix,
+        <dd style="margin-left: 1.5em" id="section-3-4.28">An Inter-Subnet Forwarding route for a given prefix,
           whose ISF SAFI may change as it transits different domains. IPVPN
           routes as in <span>[<a href="#RFC4364" class="cite xref">RFC4364</a>]</span>, <span>[<a href="#RFC4659" class="cite xref">RFC4659</a>]</span>,
           EVPN IP Prefix routes as in <span>[<a href="#RFC9136" class="cite xref">RFC9136</a>]</span> or EVPN MAC/IP
@@ -1897,9 +1897,9 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-4.29">ISF SAFI:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-4.30">the Inter-Subnet Forwarding (ISF) Subsequent Address
-          Family Identifier (SAFI) defines an MP-BGP (Multi Protocol Border
-          Gateway Protocol <span>[<a href="#RFC4760" class="cite xref">RFC4760</a>]</span>) Sub-Address Family used
+        <dd style="margin-left: 1.5em" id="section-3-4.30">The Inter-Subnet Forwarding Subsequent Address
+          Family Identifier defines a Multiprotocol Border
+          Gateway Protocol (MP-BGP) <span>[<a href="#RFC4760" class="cite xref">RFC4760</a>]</span> Sub-Address Family used
           to advertise IP prefix reachability for inter-subnet forwarding
           within a tenant network. The SAFIs used for ISF include 1
           (applicable only to IPv4 and IPv6 AFIs), 128 (applicable only to
@@ -1914,38 +1914,38 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-4.31">MAC-VRF:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-4.32">a MAC Virtual Routing and Forwarding table, as defined
+        <dd style="margin-left: 1.5em" id="section-3-4.32">A MAC Virtual Routing and Forwarding table, as defined
           in <span>[<a href="#RFC7432" class="cite xref">RFC7432</a>]</span>. A MAC-VRF represents the instantiation
-          of an EVPN Instance (EVI) on a PE. Each MAC-VRF is associated with a
+          of an EVI on a PE. Each MAC-VRF is associated with a
           unique Route Distinguisher (RD) and one or more Route Targets (RTs),
           which are required attributes for its operation. These RD and RT
           values are typically distinct from those used by any associated
           IP-VRF, when such an IP-VRF is linked to the MAC-VRF through a
-          Bridge Table via an Integrated Routing and Bridging (IRB) interface
+          BT via an IRB interface
           <span>[<a href="#RFC9135" class="cite xref">RFC9135</a>]</span>.<a href="#section-3-4.32" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-4.33">MPLS/NVO/SRv6 tunnel:</dt>
         <dd style="margin-left: 1.5em" id="section-3-4.34">
-          <p id="section-3-4.34.1">A tunnel that may be based on MPLS (Multi
-          Protocol Label Switching) or a Network Virtualization Overlay (NVO)
-          technology <span>[<a href="#RFC8365" class="cite xref">RFC8365</a>]</span> or Segment Routing over IPv6
+          <p id="section-3-4.34.1">A tunnel that may be based on Multiprotocol 
+          Label Switching (MPLS), a Network Virtualization Overlay (NVO)
+          technology <span>[<a href="#RFC8365" class="cite xref">RFC8365</a>]</span>, or Segment Routing over IPv6 (SRv6)
           <span>[<a href="#RFC9252" class="cite xref">RFC9252</a>]</span>. Such tunnels are utilized by both MAC-VRFs
           and IP-VRFs. Regardless of the underlying tunneling technology, the
           tunnel may carry either Ethernet or IP payloads. MAC-VRFs are
-          restricted to using tunnels that carry Ethernet payloads - Ethernet
-          NVO Tunnels <span>[<a href="#RFC9136" class="cite xref">RFC9136</a>]</span>, SRv6 tunnels with Ethernet
-          payload - which are typically established via EVPN signaling. In
-          contrast, IP-VRFs may utilize tunnels carrying Ethernet payloads,
-          signaled via EVPN - or IP payloads, signaled via EVPN or IPVPN
-          mechanisms. IPVPN-only PEs support IP-VRFs but do not support
+          restricted to using tunnels that carry Ethernet payloads -- such as Ethernet
+          NVO tunnels <span>[<a href="#RFC9136" class="cite xref">RFC9136</a>]</span> and SRv6 tunnels with Ethernet
+          payload -- which are typically established via EVPN signaling. In
+          contrast, IP-VRFs may utilize tunnels carrying Ethernet payloads
+          (signaled via EVPN) or IP payloads (signaled via EVPN or IPVPN
+          mechanisms). IPVPN-only PEs support IP-VRFs but do not support
           sending or receiving traffic over tunnels carrying Ethernet
           payloads.<a href="#section-3-4.34.1" class="pilcrow">¶</a></p>
-<p id="section-3-4.34.2"><strong>Example:</strong> <a href="#evpn-ipvpn-interworking-pe" class="auto internal xref">Figure 1</a> illustrates the use of an
+<p id="section-3-4.34.2">Example: <a href="#evpn-ipvpn-interworking-pe" class="auto internal xref">Figure 1</a> illustrates the use of an
           MPLS, NVO-based or SRv6 tunnel to transport Ethernet frames
           associated with MAC-VRF1. The PE identifies the corresponding
-          MAC-VRF and BT based on the EVPN label - an MPLS label, a Virtual
-          Network Identifier (VNI) or an SRv6 Segment ID -, depending on the
+          MAC-VRF and BT based on the EVPN label -- an MPLS label, a Virtual
+          Network Identifier (VNI), or an SRv6 Segment ID -- depending on the
           encapsulation type. Additionally, <a href="#evpn-ipvpn-interworking-pe" class="auto internal xref">Figure 1</a> shows two distinct
           MPLS/NVO/SRv6 tunnels used by IP-VRF1: one tunnel transports
           Ethernet frames, while the other carries IP packets. This
@@ -1955,23 +1955,23 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-4.35">NVE:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-4.36">Network Virtualization Edge router <span>[<a href="#RFC8365" class="cite xref">RFC8365</a>]</span>.<a href="#section-3-4.36" class="pilcrow">¶</a>
+        <dd style="margin-left: 1.5em" id="section-3-4.36">A Network Virtualization Edge router <span>[<a href="#RFC8365" class="cite xref">RFC8365</a>]</span>.<a href="#section-3-4.36" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-4.37">PE:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-4.38">Provider Edge device.<a href="#section-3-4.38" class="pilcrow">¶</a>
+        <dd style="margin-left: 1.5em" id="section-3-4.38">A Provider Edge device.<a href="#section-3-4.38" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-4.39">Regular Domain:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-4.40">a domain in which a single control plane ISF
+        <dd style="margin-left: 1.5em" id="section-3-4.40">A domain in which a single control plane ISF
           SAFI, i.e., IPVPN or EVPN, is used. A Regular Domain is composed of
-          regular PEs, see below. In <a href="#ure-multiple-domain-dci-example" class="auto internal xref">Figure 4</a> and <a href="#ure-single-domain-dci-example" class="auto internal xref">Figure 5</a>, above, all domains are
+          regular PEs; see the definition below. In Figures <a href="#ure-multiple-domain-dci-example" class="auto internal xref">4</a> and <a href="#ure-single-domain-dci-example" class="auto internal xref">5</a>, all domains are
           regular domains.<a href="#section-3-4.40" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-4.41">Regular PE:</dt>
         <dd style="margin-left: 1.5em" id="section-3-4.42">A PE that is attached to a domain, either regular or
-          composite, and which uses one of the control plane ISF SAFIs (IPVPN
+          composite, and that uses one of the control plane ISF SAFIs (IPVPN
           or EVPN) operating in the domain.<a href="#section-3-4.42" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
@@ -2029,8 +2029,8 @@ Octets
         </figcaption></figure>
 </div>
 <span class="break"></span><dl class="dlParallel" id="section-4-4">
-        <dt id="section-4-4.1">Domain Segment Length (length: 1-octet):</dt>
-        <dd style="margin-left: 1.5em" id="section-4-4.2">containing the number of
+        <dt id="section-4-4.1">Domain Segment Length:</dt>
+        <dd style="margin-left: 1.5em" id="section-4-4.2">Length is 1 octet. Contains the number of
           domains in the segment.<a href="#section-4-4.2" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
@@ -2041,12 +2041,11 @@ Octets
           ISF route. Multiple Domains may exist between those Domains.<a href="#section-4-4.4" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
-<dt id="section-4-4.5">DOMAIN-ID</dt>
-        <dd style="margin-left: 1.5em" id="section-4-4.6">is a 6-octet field that represents a domain. It is
+<dt id="section-4-4.5">DOMAIN-ID:</dt>
+        <dd style="margin-left: 1.5em" id="section-4-4.6">A 6-octet field that represents a domain. It is
           composed of a 4-octet Global Administrator sub-field and a 2-octet
           Local Administrator sub-field. The Global Administrator sub-field
-          <span class="bcp14">MAY</span> be filled with an Autonomous System Number (ASN, Public or
-          Private), an IPv4 address, or any value. The combined Global
+          <span class="bcp14">MAY</span> be filled with a public or private Autonomous System Number (ASN), an IPv4 address, or any value. The combined Global
           Administrator and Local Administrator can use any value that
           guarantees the uniqueness of the DOMAIN-ID (when the tenant network
           is connected to multiple Operators) and helps troubleshooting and
@@ -2055,15 +2054,14 @@ Octets
           domain. All Gateway PEs attached to the same domain <span class="bcp14">MUST</span> use the
           same DOMAIN-ID value to represent that domain. Expressing the Global
           Administrator and Local Administrator values as opaque unsigned
-          integers in user interface and reporting (e.g., CLI/YANG) is
-          <span class="bcp14">RECOMMENDED</span>.<a href="#section-4-4.6" class="pilcrow">¶</a>
+          integers in user interface and reporting (e.g., Command Line Interface (CLI) / YANG) is <span class="bcp14">RECOMMENDED</span>.<a href="#section-4-4.6" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
-<dt id="section-4-4.7">ISF_SAFI_TYPE</dt>
+<dt id="section-4-4.7">ISF_SAFI_TYPE:</dt>
         <dd style="margin-left: 1.5em" id="section-4-4.8">
-          <p id="section-4-4.8.1">is a 1-octet field that indicates the Inter-Subnet
+          <p id="section-4-4.8.1">A 1-octet field that indicates the Inter-Subnet
           Forwarding SAFI type in which a route was received by the gateway
-          PE, before the route is re-exported by the gateway PE into a
+          PE before the route is re-exported by the gateway PE into a
           different domain. The ISF_SAFI_TYPE field is informational and does
           not have any impact on the loop detection or BGP Path selection
           procedures. Encoding the ISF_SAFI_TYPE provides operational
@@ -2098,7 +2096,7 @@ Octets
 </dd>
       <dd class="break"></dd>
 </dl>
-<p id="section-4-5">The BGP D-PATH attribute is supported on ISF routes of type IPVPN and
+<p id="section-4-5">The BGP D-PATH attribute is supported on ISF routes of types IPVPN and
       EVPN and <span class="bcp14">MUST NOT</span> be advertised along with routes different from IPVPN
       and EVPN routes. By default, the BGP D-PATH attribute is not advertised
       and <span class="bcp14">MUST</span> be explicitly enabled by configuration on the Gateway PEs. The
@@ -2111,7 +2109,7 @@ Octets
 <ul class="normal">
 <li class="normal" id="section-4-6.1.2.1">
               <p id="section-4-6.1.2.1.1">This attribute list <span class="bcp14">MAY</span> contain one or more segments. Each
-              segment's Domain Segment Length <span class="bcp14">MUST</span> be equal or greater than
+              segment's Domain Segment Length <span class="bcp14">MUST</span> be equal to or greater than
               one.<a href="#section-4-6.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4-6.1.2.2">
@@ -2128,7 +2126,7 @@ Octets
               <p id="section-4-6.1.2.3.1">As an example, an ISF IPVPN or EVPN route received with a
               D-PATH attribute containing a domain segment of {length=2,
               &lt;6500:2:IPVPN&gt;,&lt;6500:1:EVPN&gt;} indicates that the
-              route was originated in EVPN domain 6500:1, and re-originated
+              route was originated in EVPN domain 6500:1 and re-originated
               into IPVPN domain 6500:2.<a href="#section-4-6.1.2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4-6.1.2.4">
@@ -2144,7 +2142,7 @@ Octets
         <li id="section-4-6.2">
           <p id="section-4-6.2.1">D-PATH is added/modified by a gateway PE when re-originating an
           update to a different domain (which runs the same or different ISF
-          SAFI), assuming the use of D-PATH is configured:<a href="#section-4-6.2.1" class="pilcrow">¶</a></p>
+          SAFI), assuming the use of D-PATH is configured as follows:<a href="#section-4-6.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4-6.2.2.1">
               <p id="section-4-6.2.2.1.1">The IP-VRF of a Gateway PE that interconnects two domains is
@@ -2159,7 +2157,7 @@ Octets
               BGP peer, the gateway PE <span class="bcp14">MUST</span> prepend a
               &lt;DOMAIN-ID:ISF_SAFI_TYPE&gt; to the list of domains in the
               D-PATH of the received route, as long as the gateway PE works in
-              Uniform-Propagation-Mode, as explained in <a href="#sect-5.2" class="auto internal xref">Section 5.2</a>, and the use of D-PATH is configured as
+              Uniform-Propagation-Mode (as explained in <a href="#sect-5.2" class="auto internal xref">Section 5.2</a>) and the use of D-PATH is configured as
               described at the beginning of this section.<a href="#section-4-6.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4-6.2.2.3">
@@ -2169,7 +2167,7 @@ Octets
               corresponding IPVPN route for P, when exported to an IPVPN peer,
               will include the domain identifier &lt;6500:1:EVPN&gt; prepended
               to the existing D-PATH attribute, assuming the use of D-PATH is
-              configured, as described at the beginning of this section.
+              configured, as described in the beginning of this section.
               Similarly, prefixes received in the IP-VRF from an IPVPN peer
               will be exported to EVPN peers with the domain identifier
               &lt;6500:2:IPVPN&gt; appended to the D-PATH attribute, again
@@ -2220,7 +2218,7 @@ Octets
               mechanisms for detecting control plane loops, this third option
               is <span class="bcp14">RECOMMENDED</span>, as it conveys additional information about the
               origin of the route. Specifically, it allows the receiving PE to
-              identify the route as having originated from a local gateway,
+              identify the route as having originated from a local gateway
               based on the combination of the DOMAIN-ID and the ISF_SAFI_TYPE
               value.<a href="#section-4-6.3.2.3.2" class="pilcrow">¶</a></p>
 </li>
@@ -2253,27 +2251,27 @@ Octets
           ISF routes for the same prefix associated with TS1:<a href="#section-4-6.4.4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4-6.4.5.1">
-              <p id="section-4-6.4.5.1.1">An EVPN IP Prefix route with a next-hop of PE1, and no D-PATH
+              <p id="section-4-6.4.5.1.1">An EVPN IP Prefix route with a next hop of PE1 and no D-PATH
               attribute.<a href="#section-4-6.4.5.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4-6.4.5.2">
-              <p id="section-4-6.4.5.2.1">An IPVPN route with a next-hop of GW2, and a D-PATH attribute
+              <p id="section-4-6.4.5.2.1">An IPVPN route with a next hop of GW2 and a D-PATH attribute
               containing a single segment: {length=1, &lt;6500:1:EVPN&gt;},
               where 6500:1 is assumed to be the DOMAIN-ID for domain 1, which
               is local to GW1.<a href="#section-4-6.4.5.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-4-6.4.6">Upon receiving the IPVPN route, GW1 identifies 6500:1 as a
-          locally configured DOMAIN-ID, and therefore flags the route as
+          locally configured DOMAIN-ID and therefore flags the route as
           "looped". As a result, GW1 does not install this route in the tenant
-          IP-VRF, because the route selection process prefers the EVPN IP
+          IP-VRF because the route selection process prefers the EVPN IP
           Prefix route (due to its shorter D-PATH attribute, as specified in
           <a href="#sect-6" class="auto internal xref">Section 6</a>). Loop detection is applied even if the
           ISF_SAFI_TYPE value in the D-PATH attribute is unknown to GW1 or
           does not match any SAFI defined in this specification.<a href="#section-4-6.4.6" class="pilcrow">¶</a></p>
 </li>
         <li id="section-4-6.5">
-          <p id="section-4-6.5.1">A DOMAIN-ID configured on a gateway PE <span class="bcp14">MAY</span> be assigned at either
+          <p id="section-4-6.5.1">A DOMAIN-ID configured on a gateway PE <span class="bcp14">MAY</span> be either assigned at
           the domain interconnection level or scoped individually per tenant
           IP-VRF.<a href="#section-4-6.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -2474,7 +2472,7 @@ Octets
             <span class="bcp14">SHOULD</span> retain IBGP-only attributes (e.g., LOCAL_PREF,
             ORIGINATOR_ID, CLUSTER_ID) from the original ISF route. As the
             route is re-originated, the gateway PE is not required to perform
-            the route reflector function described in <span>[<a href="#RFC4456" class="cite xref">RFC4456</a>]</span>.<a href="#section-5.2-3.3.1" class="pilcrow">¶</a></p>
+            the Route Reflector function described in <span>[<a href="#RFC4456" class="cite xref">RFC4456</a>]</span>.<a href="#section-5.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.2-3.4">
             <p id="section-5.2-3.4.1">As stated in Item 1, the gateway PE <span class="bcp14">SHOULD</span> preserve the
@@ -2675,7 +2673,7 @@ Octets
         <h3 id="name-examples">
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
         </h3>
-<p id="section-6.2-1"><strong>Example 1:</strong> PE1 receives three candidate routes for prefix IP1/32, all eligible
+<p id="section-6.2-1">Example 1: PE1 receives three candidate routes for prefix IP1/32, all eligible
         for import into IP-VRF-1:<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.2-2">
 <pre>
@@ -2683,21 +2681,21 @@ Octets
 {SAFI=EVPN, RT-5, Local-Pref=100, AS-Path=(65536,65537)}
 {SAFI=128, Local-Pref=100, AS-Path=(65536,65537)}</pre><a href="#section-6.2-2" class="pilcrow">¶</a>
 </div>
-<p id="section-6.2-3"><strong>Selected route:</strong><a href="#section-6.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.2-3">Selected route:<a href="#section-6.2-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.2-4">
 <pre>
 {SAFI=EVPN, RT-2, Local-Pref=100, AS_PATH=(65536,65537)}</pre><a href="#section-6.2-4" class="pilcrow">¶</a>
 </div>
 <p id="section-6.2-5">This outcome is due to Step 3, which gives preference to Route Type
         2 when both Type 2 and Type 5 EVPN routes exist.<a href="#section-6.2-5" class="pilcrow">¶</a></p>
-<p id="section-6.2-6"><strong>Example 2:</strong> PE1 receives two candidate routes for prefix IP2/24, both eligible
+<p id="section-6.2-6">Example 2: PE1 receives two candidate routes for prefix IP2/24, both eligible
         for import into IP-VRF-1:<a href="#section-6.2-6" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.2-7">
 <pre>
 {SAFI=EVPN, RT-5, D-PATH=(6500:3:IPVPN), AS-Path=(65536,65537), MED=10}
 {SAFI=128, D-PATH=(6500:1:EVPN,6500:2:IPVPN), AS-Path=(65537), MED=200}</pre><a href="#section-6.2-7" class="pilcrow">¶</a>
 </div>
-<p id="section-6.2-8"><strong>Selected route:</strong><a href="#section-6.2-8" class="pilcrow">¶</a></p>
+<p id="section-6.2-8">Selected route:<a href="#section-6.2-8" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.2-9">
 <pre>
 {SAFI=EVPN, RT-5, D-PATH=(6500:3:IPVPN), AS_PATH=(65536,65537), MED=10}</pre><a href="#section-6.2-9" class="pilcrow">¶</a>
