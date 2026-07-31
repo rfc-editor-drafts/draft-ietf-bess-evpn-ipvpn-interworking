@@ -1,10 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
-<!-- [rfced] pre-edited by ST 03/13/26 -->
-<!-- [rfced] formatted by ST 03/18/26 -->
-<!-- [rfced] reference review by TH 04/10/26 -->
-
-
 <!DOCTYPE rfc [
   <!ENTITY nbsp    "&#160;">
   <!ENTITY zwsp   "&#8203;">
@@ -81,8 +76,6 @@
 <!-- [rfced] Please insert any keywords (beyond those that appear in
 the title) for use on https://www.rfc-editor.org/search. -->
 
-<keyword>example</keyword>
-
     <abstract>
       <t>Ethernet Virtual Private Network (EVPN) provides a unified BGP
       control plane for both intra- and inter-subnet forwarding within tenant
@@ -92,11 +85,10 @@ the title) for use on https://www.rfc-editor.org/search. -->
       ensure seamless end-to-end tenant connectivity. This document defines
       these interworking procedures.</t>
       <t>In addition, this document defines a new BGP Path Attribute, referred
-      to as D-PATH (Domain PATH), which provides loop prevention for gateway
+      to as Domain PATH (D-PATH), which provides loop prevention for gateway
       nodes by protecting against control plane loops. The introduction of
-      D-PATH modifies the BGP best path selection process for Multiprotocol
-      BGP inter-subnet forwarding routes of SAFI 128 (IPVPN) and SAFI 70
-      (EVPN).</t>
+      D-PATH modifies the BGP best-path selection process for Multiprotocol
+      BGP Inter-Subnet Forwarding (ISF) routes of Subsequent Address Family Identifiers (SAFI) 128 (IPVPN) and SAFI 70 (EVPN).</t>
     </abstract>
   </front>
   <middle>
@@ -105,13 +97,13 @@ the title) for use on https://www.rfc-editor.org/search. -->
       <t>EVPN is used as a unified BGP control plane to support both
       intra-subnet and inter-subnet forwarding for tenant networks. In
       deployments where a tenant network spans multiple domains, some of which
-      use EVPN, and others which rely on BGP VPN-IPv4/VPN-IPv6 address
+      use EVPN and others of which rely on BGP VPN-IPv4/VPN-IPv6 address
       families for inter-subnet forwarding, it becomes necessary to define
       interworking procedures to enable seamless end-to-end tenant
       connectivity across these heterogeneous domains.</t>
       <t>This document specifies procedures for interworking between EVPN and
       other BGP address families, including VPN-IPv4 and VPN-IPv6, for the
-      purpose of inter-subnet forwarding. It also defines procedures for the
+      purpose of ISF. It also defines procedures for the
       interconnection of domains that may use EVPN, IPVPN, or a combination of
       both. Examples include the interconnection of two EVPN domains, two
       IPVPN domains, or an EVPN domain with an IPVPN domain.</t>
@@ -136,7 +128,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
       route types:</t>
       <ul spacing="normal">
         <li>
-          <t>Route Type 2 - EVPN MAC/IP Advertisement route, as defined in
+          <t>Route Type 2 - EVPN Media Access Control (MAC) / IP Advertisement route, as defined in
           <xref target="RFC9135" format="default"/>, supporting host routes (i.e., /32 or
           /128).</t>
         </li>
@@ -150,11 +142,11 @@ the title) for use on https://www.rfc-editor.org/search. -->
       vice versa. Several aspects of this re-origination require clarified
       procedures, including route selection, loop prevention, and BGP Path
       Attribute handling across AFI/SAFI boundaries.</t>
-      <t>This document defines the concept of an Interworking PE (in <xref target="sect-3" format="default"/>), which is responsible for interconnecting different
-      domains. An Interworking PE implements the following behavior: it
+      <t>This document defines the concept of an Interworking PE (<xref target="sect-3" format="default"/>), which is responsible for interconnecting different
+      domains. An Interworking PE implements the following behavior: It
       imports routes from one domain (along with the domain-specific
       encapsulation parameters), installs them in an IP-VRF (IP Virtual
-      Routing and Forwarding table <xref target="RFC9135" format="default"/>), and
+      Routing and Forwarding) table <xref target="RFC9135" format="default"/>, and
       re-originates the routes with the encapsulation attributes suitable for
       the adjacent domain before advertisement. This reorigination process
       enables the solution to operate independently of the transport
@@ -173,7 +165,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
           EVPN and other ISF SAFIs.</t>
         </li>
         <li>
-          <t>A new BGP Path Attribute, referred to as the Domain Path (D-PATH)
+          <t>A new BGP Path Attribute, referred to as D-PATH
           attribute, which provides loop prevention capabilities and conveys
           domain traversal information for a given route.</t>
         </li>
@@ -183,7 +175,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
           processing.</t>
         </li>
         <li>
-          <t>The operational procedures required on Interworking PEs that
+          <t>The operational procedures required for Interworking PEs that
           function as composite PEs, gateway PEs, or devices supporting both
           roles.</t>
         </li>
@@ -195,7 +187,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
       and routing loop protection.</t>
     </section>
     <section anchor="sect-2" numbered="true" toc="default">
-      <name>Conventions used in this document</name>
+      <name>Conventions Used in This Document</name>
         <t>
     The key words "<bcp14>MUST</bcp14>", "<bcp14>MUST NOT</bcp14>", "<bcp14>REQUIRED</bcp14>", "<bcp14>SHALL</bcp14>", "<bcp14>SHALL
     NOT</bcp14>", "<bcp14>SHOULD</bcp14>", "<bcp14>SHOULD NOT</bcp14>", "<bcp14>RECOMMENDED</bcp14>", "<bcp14>NOT RECOMMENDED</bcp14>",
@@ -208,6 +200,9 @@ the title) for use on https://www.rfc-editor.org/search. -->
       <name>Terminology and Interworking PE Components</name>
       <t>This section summarizes the terminology related to the "Interworking
       PE" concept that will be used throughout the rest of the document.</t>
+
+<!--[rfced] We note that the term "Example" is included in all figure titles except for Figures 1 and 7. Would you like to make this consistent by adding "Example" to those figures?
+-->      
       <figure anchor="evpn-ipvpn-interworking-pe">
         <name>EVPN-IPVPN Interworking PE</name>
         <artwork name="" type="" align="left" alt=""><![CDATA[
@@ -215,7 +210,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
    |                                                             |
    |              +------------------+           Interworking PE |
    | Attachment   | +------------------+                         |
-   | Circuit(AC1) | |  +----------+    |            MPLS/NVO/SRv6 tnl
+   | Circuit (AC1)| |  +----------+    |            MPLS/NVO/SRv6 tnl
  ----------------------*Bridge    |    |                    +------
 MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
 /SRv6 tnl    +-------->|          *---------*           |<--> | Eth |
@@ -239,46 +234,46 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
       </figure>
 <t>Note: "tnl" refers to "tunnel"</t>
       <dl spacing="normal" newline="false">
-        <dt>AC:</dt><dd><t>Attachment Circuit or logical interface associated to a given
+        <dt>AC:</dt><dd><t>An Attachment Circuit or logical interface associated to a given
           BT or IP-VRF. To determine the AC on which a packet arrived, the PE
           will examine the combination of a physical port and VLAN tags (where
           the VLAN tags can be individual VLAN tags, Q-in-Q tags or ranges of
           both).</t>
-          <t><strong>Example:</strong> In <xref
+          <t>Example: In <xref
           target="evpn-ipvpn-interworking-pe" format="default"/>, AC1 is
-          associated to BT1, AC2 to BT2 and AC3 to IP-VRF1.</t></dd>
-        <dt>BT:</dt><dd><t>a Bridge Table, as defined in <xref target="RFC7432" format="default"/>,
+          associated to BT1, AC2 to BT2, and AC3 to IP-VRF1.</t></dd>
+        <dt>BT:</dt><dd><t>A Bridge Table, as defined in <xref target="RFC7432" format="default"/>,
           represents the instantiation of a Broadcast Domain on a PE. When an
-          EVI contains a single Broadcast Domain, the associated MAC-VRF on
+          EVPN Instance (EVI) contains a single Broadcast Domain, the associated MAC-VRF on
           each PE includes a single BT. In cases where multiple Broadcast
           Domains exist within the same MAC-VRF, each BT is associated with a
           distinct Ethernet Tag. EVPN routes specific to a given BT include
           the corresponding Ethernet Tag to indicate the Broadcast Domain to
           which the route pertains.</t>
-          <t><strong>Example:</strong> In <xref
+          <t>Example: In <xref
           target="evpn-ipvpn-interworking-pe" format="default"/>, MAC-VRF1 has
           two BTs: BT1 and BT2. Ethernet Tag x is defined in BT1 and Ethernet
           Tag y in BT2.</t></dd>
-        <dt>CE:</dt><dd>Customer Edge device.</dd>
+        <dt>CE:</dt><dd>A Customer Edge device.</dd>
         <dt>Composite Domain:</dt><dd>a domain in which multiple control plane ISF
           SAFIs, i.e., IPVPN and/or EVPN, are used and which is composed of
-          regular PEs and composite PEs, see below.</dd>
-        <dt>Composite PE:</dt><dd><t>An Interworking PE that is connected to - at least
-          - one composite domain and is capable of advertising a given prefix
+          regular PEs and composite PEs; see below.</dd>
+        <dt>Composite PE:</dt><dd><t>An Interworking PE that is connected to -- at least
+          -- one composite domain and is capable of advertising a given prefix
           to multiple types of peers using appropriate route types.
           Specifically, a Composite PE advertises the prefix to an IPVPN peer
           using an IPVPN ISF route, to an EVPN peer using an EVPN ISF route,
-          and to an RR (Route Reflector <xref target="RFC4456" format="default"/>) using both
+          and to an Route Reflector (RR) <xref target="RFC4456" format="default"/> using both
           IPVPN and EVPN ISF routes (assuming the same RR is used for IPVPN
           and EVPN). A Composite PE implements the procedures defined in <xref target="sect-7" format="default"/>.</t>
-          <t><strong>Example:</strong> <xref
+          <t>Example: <xref
           target="ure-interworking-composite-pe-example" format="default"/>
-          shows an example where PE1 is a composite PE since PE1 has EVPN and
+          shows a scenario where PE1 is a composite PE since PE1 has EVPN and
           another ISF SAFI enabled to the same route-reflector, and PE1
-          advertises a given IP prefix IPn/x twice, one using EVPN and another
-          one using ISF SAFI 128. PE2 and PE3 are not composite PEs. </t>
+          advertises a given IP prefix IPn/x twice: once using EVPN and once
+          using ISF SAFI 128. PE2 and PE3 are not composite PEs. </t>
           <figure anchor="ure-interworking-composite-pe-example">
-            <name>Interworking composite PE example</name>
+            <name>Interworking Composite PE Example</name>
             <artwork name="" type="" align="left" alt=""><![CDATA[
                                 +---+
                                 |PE2|
@@ -532,7 +527,7 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
      </dl>
     </section>
     <section anchor="sect-4" numbered="true" toc="default">
-      <name>Domain Path Attribute (D-PATH)</name>
+      <name>Domain Path (D-PATH) Attribute</name>
       <t>The BGP D-PATH attribute is an optional and transitive BGP path
       attribute.</t>
       <t>Similar to AS_PATH, D-PATH is composed of a sequence of Domain
@@ -1662,7 +1657,7 @@ TS1-|NVE1|             |             +----+  +------->|+------+ |
     <section anchor="sect-13" numbered="true" toc="default">
       <name>IANA Considerations</name>
       <t>This document defines a new BGP path attribute known as the BGP
-      Domain Path (D-PATH) attribute.</t>
+      D-PATH attribute.</t>
       <t>IANA has assigned a new attribute code type from the "BGP Path
       Attributes" registry in the "Border Gateway Protocol (BGP) Parameters"
       registry group:</t>
