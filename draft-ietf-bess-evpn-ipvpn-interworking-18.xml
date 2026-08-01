@@ -118,9 +118,9 @@ the title) for use on https://www.rfc-editor.org/search. -->
       re-advertises it back into the IPVPN domain, a loop may form. The D-PATH
       attribute is designed to prevent such scenarios by providing
       domain-level loop detection and avoidance.</t>
-      <t>The D-PATH attribute alters the BGP best path selection logic for
+      <t>The D-PATH attribute alters the BGP best-path selection logic for
       Multiprotocol BGP routes of SAFI 128 (VPN-IPv4/IPv6) and for EVPN IP
-      Prefix routes. Accordingly, this document updates the BGP best path
+      Prefix routes. Accordingly, this document updates the BGP best-path
       selection procedures specified in <xref target="RFC4271" format="default"/>, but only for
       the IPVPN and EVPN families when the D-PATH attribute is used for
       inter-domain connectivity.</t>
@@ -1062,7 +1062,7 @@ Perhaps:
             <t>For a given ISF route, only the BGP Path Attributes associated
             with the best path <bcp14>MAY</bcp14> be propagated when re-advertising the route
             into a different domain. If multiple paths are received for the
-            same prefix within the same ISF SAFI, the standard BGP best path
+            same prefix within the same ISF SAFI, the standard BGP best-path
             selection procedure <bcp14>MUST</bcp14> be applied to determine the active path
             and its associated attributes. Even when Equal-Cost Multipath
             (ECMP) is enabled for the IP-VRF, only the Path Attributes of the
@@ -1150,7 +1150,7 @@ Perhaps:
         </li>
       </ul>
       <t>For a given prefix received via one or more non-EVPN ISF routes, the
-      standard BGP best path selection procedure, as defined in <xref target="RFC4271" format="default"/>, is applied to determine the "non-EVPN best paths".
+      standard BGP best-path selection procedure, as defined in <xref target="RFC4271" format="default"/>, is applied to determine the "non-EVPN best paths".
       Similarly, for a given prefix received via one or more EVPN ISF routes,
       the same procedure is applied to determine the "EVPN best paths".</t>
       <t>When both EVPN and non-EVPN ISF routes are present for the same
@@ -1190,7 +1190,7 @@ Perhaps:
             <bcp14>MUST</bcp14> be removed from consideration.</t>
           </li>
         </ol>
-        <t>This procedure extends the standard BGP best path selection
+        <t>This procedure extends the standard BGP best-path selection
         behavior as specified in <xref target="RFC4271" format="default"/> for IPVPN and EVPN
         IP Prefix routes by incorporating D-PATH-based tie-breaking to prefer
         routes that traverse the fewest Gateway PEs or domains. These rules
@@ -1507,6 +1507,28 @@ IP1/24-->      |+------+  |             |+------+  |            |
             given prefix P may traverse before reaching its destination.</t>
           </li>
           <li>
+
+<!--[rfced] In Section 8.2, does the "Informative Note" (item g) relate 
+to item f, or does it relate to the entire list? If it relates to item f, 
+we suggest removing "g" as shown below. If it relates to the entire list, 
+please consider if "g" and the indentation should be removed.
+
+Original:
+   f. There is no restriction on the number of gateway PEs that a given 
+      prefix P may traverse before reaching its destination.
+
+   g. Informative Note: If prefix P is originated in an EVPN domain and 
+      subsequently traverses one or more non-EVPN ISF SAFI domains, it 
+      will lose EVPN-specific attributes ...
+
+Perhaps:
+   f. There is no restriction on the number of gateway PEs that a given 
+      prefix P may traverse before reaching its destination.
+
+      Informative Note: If prefix P is originated in an EVPN domain and 
+      subsequently traverses one or more non-EVPN ISF SAFI domains, it 
+      will lose EVPN-specific attributes ...
+-->            
             <t>Informative Note: If prefix P is originated in an EVPN domain
             and subsequently traverses one or more non-EVPN ISF SAFI domains,
             it will lose EVPN-specific attributes used for advanced EVPN
@@ -1515,15 +1537,15 @@ IP1/24-->      |+------+  |             |+------+  |            |
             ESI value will be reset to zero by the time the route reaches PE6,
             as it passed through an ISF SAFI domain that is not EVPN-capable.
             Consequently, certain EVPN-specific functionalities may not be
-            preserved end-to-end.</t>
+            preserved end to end.</t>
           </li>
         </ol>
       </section>
     </section>
     <section anchor="sect-9" numbered="true" toc="default">
-      <name>Interworking Use-Cases</name>
+      <name>Interworking Use Cases</name>
       <t>While network deployments involving Interworking PEs may align with
-      the scenarios described in <xref target="sect-7" format="default"/> and <xref target="sect-8" format="default"/>, there are cases where a combination of both gateway
+      the scenarios described in Sections <xref target="sect-7" format="counter"/> and <xref target="sect-8" format="counter"/>, there are cases where a combination of both gateway
       PE and composite PE functionality is required. <xref target="ure-gateway-and-composite-combined-functions-example" format="default"/>
       illustrates an example in which gateway PEs also operate as composite
       PEs. In such scenarios, the devices must not only re-originate ISF
@@ -1531,7 +1553,7 @@ IP1/24-->      |+------+  |             |+------+  |            |
       multiple EVPN domains, but also interoperate with IPVPN-only PEs within
       domains that include a mix of composite and IPVPN-only PEs.</t>
       <figure anchor="ure-gateway-and-composite-combined-functions-example">
-        <name>Gateway and composite combined functions - example</name>
+        <name>Gateway and Composite Combined Functions Example</name>
         <artwork name="" type="" align="left" alt=""><![CDATA[
                       +-----------------------------------+
                       |                                   |
@@ -1563,7 +1585,7 @@ TS1-|NVE1|             |             +----+  +------->|+------+ |
       </figure>
 
 <t>Note: "tnls" refers to "tunnels"</t>
-      <t>In the example illustrated, PE1 and PE2 follow the procedures defined
+      <t>In <xref target="ure-gateway-and-composite-combined-functions-example"/>, PE1 and PE2 follow the procedures defined
       in Sections <xref target="sect-7" format="counter"/> and <xref target="sect-8" format="counter"/>. Unlike the
       scenario described in <xref target="sect-8" format="default"/>, PE1 and PE2 are
       additionally required to re-originate ISF routes between EVPN domains
@@ -1571,13 +1593,12 @@ TS1-|NVE1|             |             +----+  +------->|+------+ |
       important to note that PE1 and PE2 will receive the IP prefix associated
       with TS4 via both IPVPN and EVPN IP Prefix routes. When re-advertising
       the selected route to NVE1 and NVE2, PE1 and PE2 <bcp14>MUST</bcp14> apply the D-PATH
-      handling rules and related attribute processing as described in <xref target="sect-6" format="default"/> (Route Selection Process).</t>
+      handling rules and related attribute processing as described in <xref target="sect-6" format="default"/> ("Route Selection Process for ISF Routes").</t>
     </section>
     <section anchor="sect-10" numbered="true" toc="default">
       <name>BGP Error Handling on Interworking PEs</name>
       <t>BGP speakers following this specification <bcp14>MUST</bcp14> adhere to the
-      following error-handling procedures when processing Inter-Subnet
-      Forwarding (ISF) routes:</t>
+      following error-handling procedures when processing ISF routes:</t>
       <ul spacing="normal">
         <li>
           <t>Any BGP UPDATE message for an ISF route that includes a D-PATH
@@ -1608,12 +1629,12 @@ TS1-|NVE1|             |             +----+  +------->|+------+ |
         <li>
           <t>If a Gateway PE erroneously propagates the BGP Encapsulation
           Extended Community or the equivalent Encapsulation TLV in the Tunnel
-          Encapsulation Attribute <xref target="RFC9012" format="default"/> from one EVPN
+          Encapsulation attribute <xref target="RFC9012" format="default"/> from one EVPN
           domain to another, the receiving PE <bcp14>MAY</bcp14> receive two encapsulation
           indications with different values. In such a case, the PE <bcp14>MUST</bcp14>
           follow the procedures in <xref target="RFC8365" format="default"/>, which permit
           signaling multiple encapsulation types. As specified in <xref target="RFC9012" format="default"/>, encapsulations carried via the Tunnel
-          Encapsulation Attribute <bcp14>MUST</bcp14> be treated as equivalent to those
+          Encapsulation attribute <bcp14>MUST</bcp14> be treated as equivalent to those
           conveyed via the Encapsulation Extended Community.</t>
         </li>
         <li>
@@ -1633,10 +1654,10 @@ TS1-|NVE1|             |             +----+  +------->|+------+ |
     <section anchor="sect-12" numbered="true" toc="default">
       <name>Security Considerations</name>
       <t>The security considerations outlined in <xref target="RFC9136" format="default"/>
-        <xref target="RFC8365" format="default"/> for ISF EVPN routes and <xref target="RFC4364" format="default"/> for ISF IPVPN routes are applicable to this
+      and <xref target="RFC8365" format="default"/> for ISF EVPN routes and <xref target="RFC4364" format="default"/> for ISF IPVPN routes are applicable to this
       specification. In addition, the security considerations sections in
-      <xref target="RFC9252" format="default"/>, <xref target="RFC7606" format="default"/>, as well as the
-      entire text in <xref target="RFC4272" format="default"/> are relevant to this
+      <xref target="RFC9252" format="default"/> and <xref target="RFC7606" format="default"/>, as well as the
+      entire text in <xref target="RFC4272" format="default"/>, are relevant to this
       document.</t>
       <t>This document introduces the D-PATH Path Attribute (<xref target="sect-4" format="default"/>), which provides a mechanism for control-plane loop
       prevention when ISF IPVPN and EVPN routes are re-originated across
@@ -1668,14 +1689,14 @@ TS1-|NVE1|             |             +----+  +------->|+------+ |
       <xref target="RFC7606" format="default"/>.</t>
       <t>As a further safeguard, implementations <bcp14>SHOULD</bcp14> enforce local policy
       on upgraded PEs to discard any ISF EVPN or IPVPN routes received from
-      non-upgraded peers if such routes include a D-PATH attribute, to prevent
+      non-upgraded peers if such routes include a D-PATH attribute to prevent
       unintended propagation. The mechanism by which an implementation
       determines that ISF EVPN or IPVPN routes are received from non-upgraded
       peers is outside the scope of this document.</t>
       <t><xref target="sect-5.2" format="default"/> of this document introduces Uniform
       Propagation Mode, which enables gateway PEs to propagate a consistent
       set of BGP Path Attributes across domain boundaries. This mode enhances
-      operational visibility by preserving attributes end-to-end along the
+      operational visibility by preserving attributes end to end along the
       route path. However, it also introduces the possibility that an attacker
       could inject malformed or semantically inappropriate, but syntactically
       correct, attributes that influence BGP path selection in remote
@@ -1693,11 +1714,11 @@ TS1-|NVE1|             |             +----+  +------->|+------+ |
     </section>
     <section anchor="sect-13" numbered="true" toc="default">
       <name>IANA Considerations</name>
-      <t>This document defines a new BGP path attribute known as the BGP
+      <t>This document defines a new BGP Path Attribute known as the BGP
       D-PATH attribute.</t>
       <t>IANA has assigned a new attribute code type from the "BGP Path
       Attributes" registry in the "Border Gateway Protocol (BGP) Parameters"
-      registry group:</t>
+      registry group as follows:</t>
       <table>
 	<thead>
 	  <tr>
@@ -1765,12 +1786,12 @@ TS1-|NVE1|             |             +----+  +------->|+------+ |
       Petchimuthu"/>, <contact fullname="Eduard Vasilenko"/>, <contact
       fullname="Amit Kumar"/>, <contact fullname="Mohit Kumar"/>, <contact
       fullname="Lukas Krattiger"/>, <contact fullname="Gyan Mishra"/>, and
-      <contact fullname="Stephane Litkowski"/> for their review and
+      <contact fullname="Stephane Litkowski"/> for their reviews and
       suggestions. Thanks to <contact fullname="Sue Hares"/> and <contact
-      fullname="Jeff Haas"/> as well, for their detailed review to clarify the
-      procedures of the D-PATH attribute. The authors want to also thank
-      especially <contact fullname="Gunter van de Velde"/> and <contact
-      fullname="Ketan Talaulikar"/> for the thorough review that helped raise
+      fullname="Jeff Haas"/> as well for their detailed reviews to clarify the
+      procedures of the D-PATH attribute. The authors want to also
+      especially thank <contact fullname="Gunter van de Velde"/> and <contact
+      fullname="Ketan Talaulikar"/> for the thorough reviews that helped raise
       the quality of the document significantly.</t>
     </section>
 

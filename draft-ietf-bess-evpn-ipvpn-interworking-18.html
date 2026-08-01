@@ -1370,7 +1370,7 @@ li > p:last-of-type:only-child {
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-domain-path-d-path-attribut" class="internal xref">Domain Path (D-PATH) Attribute</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-bgp-path-attribute-propagat" class="internal xref">BGP Path Attribute Propagation across Domains</a></p>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-bgp-path-attribute-propagat" class="internal xref">BGP Path Attribute Propagation Across Domains</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-no-propagation-mode" class="internal xref">No-Propagation Mode</a></p>
@@ -1409,7 +1409,7 @@ li > p:last-of-type:only-child {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-interworking-use-cases" class="internal xref">Interworking Use-Cases</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-interworking-use-cases" class="internal xref">Interworking Use Cases</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
             <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-bgp-error-handling-on-inter" class="internal xref">BGP Error Handling on Interworking PEs</a></p>
@@ -1470,9 +1470,9 @@ li > p:last-of-type:only-child {
       re-advertises it back into the IPVPN domain, a loop may form. The D-PATH
       attribute is designed to prevent such scenarios by providing
       domain-level loop detection and avoidance.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">The D-PATH attribute alters the BGP best path selection logic for
+<p id="section-1-4">The D-PATH attribute alters the BGP best-path selection logic for
       Multiprotocol BGP routes of SAFI 128 (VPN-IPv4/IPv6) and for EVPN IP
-      Prefix routes. Accordingly, this document updates the BGP best path
+      Prefix routes. Accordingly, this document updates the BGP best-path
       selection procedures specified in <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>, but only for
       the IPVPN and EVPN families when the D-PATH attribute is used for
       inter-domain connectivity.<a href="#section-1-4" class="pilcrow">¶</a></p>
@@ -1868,7 +1868,7 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
           </ul>
 <p id="section-3-4.22.3">These two functions may be implemented independently on a
           per-tenant basis and may also coexist for the same tenant on a
-          single PE.<a href="#section-3-4.22.3" class="pilcrow">¶</a></p>
+          a single PE.<a href="#section-3-4.22.3" class="pilcrow">¶</a></p>
 <p id="section-3-4.22.4">Example: <a href="#evpn-ipvpn-interworking-pe" class="auto internal xref">Figure 1</a> shows an interworking PE
           where ISF SAFIs are enabled. IP-VRF1 and MAC-VRF1 are instantiated
           on the PE and together provide inter-subnet forwarding for the
@@ -2030,7 +2030,7 @@ Octets
 </div>
 <span class="break"></span><dl class="dlParallel" id="section-4-4">
         <dt id="section-4-4.1">Domain Segment Length:</dt>
-        <dd style="margin-left: 1.5em" id="section-4-4.2">Length is 1 octet. Contains the number of
+        <dd style="margin-left: 1.5em" id="section-4-4.2">A 1-octet length field. Contains the number of
           domains in the segment.<a href="#section-4-4.2" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
@@ -2290,7 +2290,7 @@ Octets
 <p id="section-4-6.5.3">A per tenant IP-VRF DOMAIN-ID assignment is particularly
           useful in scenarios involving route leaking. For example, consider
           two gateway PEs, PE1 and PE2, both associated with different tenant
-          IP-VRFs, denoted as IP-VRF-1 and IP-VRF-2. If PE1 advertises ISF
+          IP-VRFs and denoted as IP-VRF-1 and IP-VRF-2, respectively. If PE1 advertises ISF
           SAFI routes for IP-VRF-1 with a DOMAIN-ID of 6500:1, and these
           routes are received on PE2 and subsequently leaked from IP-VRF-1
           into IP-VRF-2, the re-advertisement of the routes from PE2 back to
@@ -2306,7 +2306,7 @@ Octets
           D-PATH attribute with an ISF_SAFI_TYPE value of 0 when exporting the
           leaked route into an ISF SAFI. In such cases, the total number of
           domain entries in the D-PATH attribute reflects not only the number
-          of Gateway PEs through which the ISF route has been re-originated,
+          of Gateway PEs through which the ISF route has been re-originated
           but also the number of tenant IP-VRF instances across those Gateway
           PEs.<a href="#section-4-6.6.1" class="pilcrow">¶</a></p>
 </li>
@@ -2317,7 +2317,7 @@ Octets
 <li class="normal" id="section-4-6.7.2.1">
               <p id="section-4-6.7.2.1.1">A received D-PATH attribute <span class="bcp14">MUST</span> be considered malformed if
               it contains a malformed Domain Segment or if the total length of
-              the D-PATH attribute is less than eight octets.<a href="#section-4-6.7.2.1.1" class="pilcrow">¶</a></p>
+              the D-PATH attribute is less than 8 octets.<a href="#section-4-6.7.2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4-6.7.2.2">
               <p id="section-4-6.7.2.2.1">A Domain Segment <span class="bcp14">MUST</span> be considered malformed under any of
@@ -2331,13 +2331,13 @@ Octets
                   length of the enclosing D-PATH attribute.<a href="#section-4-6.7.2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-4-6.7.2.2.2.3">
-                  <p id="section-4-6.7.2.2.2.3.1">Fewer than eight octets remain after the last
+                  <p id="section-4-6.7.2.2.2.3.1">Fewer than 8 octets remain after the last
                   successfully parsed Domain Segment.<a href="#section-4-6.7.2.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-4-6.7.2.2.2.4">
-                  <p id="section-4-6.7.2.2.2.4.1">Each Domain Segment consists of a one-octet length field
+                  <p id="section-4-6.7.2.2.2.4.1">Each Domain Segment consists of a 1-octet length field
                   indicating the number of Domains in the segment, with each
-                  Domain encoded in seven octets. If the total length of the
+                  Domain encoded in 7 octets. If the total length of the
                   Domain Segment (i.e., 1 + 7 x number of Domains)
                   exceeds the remaining length of the D-PATH attribute, the
                   Domain Segment is considered malformed.<a href="#section-4-6.7.2.2.2.4.1" class="pilcrow">¶</a></p>
@@ -2368,7 +2368,7 @@ Octets
               included with any other AFI/SAFI combinations. If a D-PATH
               attribute is received in an UPDATE message associated with an
               unsupported AFI/SAFI, the "treat-as-withdraw" procedure <span class="bcp14">MUST</span> be
-              applied, in accordance with <span>[<a href="#RFC7606" class="cite xref">RFC7606</a>]</span>.<a href="#section-4-6.7.2.6.1" class="pilcrow">¶</a></p>
+              applied in accordance with <span>[<a href="#RFC7606" class="cite xref">RFC7606</a>]</span>.<a href="#section-4-6.7.2.6.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </li>
@@ -2378,7 +2378,7 @@ Octets
 <div id="sect-5">
 <section id="section-5">
       <h2 id="name-bgp-path-attribute-propagat">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-bgp-path-attribute-propagat" class="section-name selfRef">BGP Path Attribute Propagation across Domains</a>
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-bgp-path-attribute-propagat" class="section-name selfRef">BGP Path Attribute Propagation Across Domains</a>
       </h2>
 <p id="section-5-1">A Gateway PE, depending on its local configuration, is required to
       re-originate an ISF route between two domains that utilize either the
@@ -2401,8 +2401,8 @@ Octets
         re-origination of an ISF route, treating it in the same manner as a
         directly connected or locally originated IP prefix.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.1-2">This mode is suitable for deployment scenarios where the source
-        domain - for example, an EVPN domain - is "abstracted" and treated as
-        a virtual CE, and where remote IPVPN or IP-based PEs do not rely on
+        domain -- for example, an EVPN domain -- is "abstracted" and treated as
+        a virtual Customer Edge (CE), and where remote IPVPN or IP-based PEs do not rely on
         the BGP Path Attributes of the source EVPN domain for best-path
         selection or the application of routing policy.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 <p id="section-5.1-3">It is important to note that, in No-Propagation Mode, the D-PATH
@@ -2422,9 +2422,9 @@ Octets
         consistent set of commonly used BGP Path Attributes when
         re-originating an ISF route between domains. This mode is typically
         employed in deployments where IP prefixes are seamlessly distributed
-        using both EVPN and/or IPVPN SAFIs. This specification permits the
+        using EVPN and/or IPVPN SAFIs. This specification permits the
         propagation of a limited set of commonly used attributes, while
-        discouraging indiscriminate copying and re-advertisement, primarily
+        discouraging indiscriminate copying and re-advertisement primarily
         for security reasons.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2-2">The following normative behavior <span class="bcp14">MUST</span> be followed by a Gateway PE
         operating in Uniform Propagation Mode:<a href="#section-5.2-2" class="pilcrow">¶</a></p>
@@ -2447,7 +2447,7 @@ Octets
 </li>
               <li class="normal" id="section-5.2-3.1.2.3">
                 <p id="section-5.2-3.1.2.3.1">IBGP-only attributes (when advertising to IBGP peers):
-                LOCAL_PREF, ORIGINATOR_ID, CLUSTER_ID<a href="#section-5.2-3.1.2.3.1" class="pilcrow">¶</a></p>
+                LOCAL_PREF, ORIGINATOR_ID, and CLUSTER_ID<a href="#section-5.2-3.1.2.3.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-5.2-3.1.2.4">
                 <p id="section-5.2-3.1.2.4.1">MULTI_EXIT_DISC (MED)<a href="#section-5.2-3.1.2.4.1" class="pilcrow">¶</a></p>
@@ -2470,7 +2470,7 @@ Octets
           <li id="section-5.2-3.3">
             <p id="section-5.2-3.3.1">When re-originating an ISF route to IBGP peers, the gateway PE
             <span class="bcp14">SHOULD</span> retain IBGP-only attributes (e.g., LOCAL_PREF,
-            ORIGINATOR_ID, CLUSTER_ID) from the original ISF route. As the
+            ORIGINATOR_ID, and CLUSTER_ID) from the original ISF route. As the
             route is re-originated, the gateway PE is not required to perform
             the Route Reflector function described in <span>[<a href="#RFC4456" class="cite xref">RFC4456</a>]</span>.<a href="#section-5.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
@@ -2517,9 +2517,9 @@ Octets
             <p id="section-5.2-3.5.1">For a given ISF route, only the BGP Path Attributes associated
             with the best path <span class="bcp14">MAY</span> be propagated when re-advertising the route
             into a different domain. If multiple paths are received for the
-            same prefix within the same ISF SAFI, the standard BGP best path
+            same prefix within the same ISF SAFI, the standard BGP best-path
             selection procedure <span class="bcp14">MUST</span> be applied to determine the active path
-            and its associated attributes. Even when Equal-Cost Multi-Path
+            and its associated attributes. Even when Equal-Cost Multipath
             (ECMP) is enabled for the IP-VRF, only the Path Attributes of the
             selected best path <span class="bcp14">SHOULD</span> be propagated.<a href="#section-5.2-3.5.1" class="pilcrow">¶</a></p>
 </li>
@@ -2540,8 +2540,8 @@ Octets
         Aggregation of multiple ISF routes of one ISF SAFI into an aggregate
         ISF route is only done by a gateway PE.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.3-2">Aggregation on gateway PEs may use either the No-Propagation-Mode
-        or the Uniform-Propagation-Mode explained in <a href="#sect-5.1" class="auto internal xref">Section 5.1</a>
-        and <a href="#sect-5.2" class="auto internal xref">Section 5.2</a>, respectively.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+        or the Uniform-Propagation-Mode explained in Sections <a href="#sect-5.1" class="auto internal xref">5.1</a>
+        and <a href="#sect-5.2" class="auto internal xref">5.2</a>, respectively.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <p id="section-5.3-3">When using Uniform-Propagation-Mode, Path Attributes of the same
         type code <span class="bcp14">MAY</span> be aggregated according to the following rules:<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -2565,16 +2565,16 @@ Octets
             D-PATH usage into the destination domain.<a href="#section-5.3-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-4.3">
-            <p id="section-5.3-4.3.1">The Community, Extended Community and Large Community
+            <p id="section-5.3-4.3.1">The Community, Extended Community, and Large Community
             attributes of an aggregated ISF route <span class="bcp14">SHOULD</span> include the union of
             the corresponding attributes from all constituent ISF routes that
             were aggregated, with the exception of those Extended Community
-            types explicitly excluded from propagation as specified in <a href="#sect-5.2" class="auto internal xref">Section 5.2</a>, or those for which the applicable
+            types explicitly excluded from propagation as specified in <a href="#sect-5.2" class="auto internal xref">Section 5.2</a> or those for which the applicable
             specifications define different handling.<a href="#section-5.3-4.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-4.4">
-            <p id="section-5.3-4.4.1">For other attributes, rules in <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span> or the
-            attribute applicable specifications are followed.<a href="#section-5.3-4.4.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-4.4.1">For other attributes, rules described in <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span> or the
+            attribute-applicable specifications are followed.<a href="#section-5.3-4.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-5.3-5">If the conditions for route aggregation, as specified above, are
@@ -2592,7 +2592,7 @@ Octets
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-route-selection-process-for" class="section-name selfRef">Route Selection Process for ISF Routes</a>
       </h2>
 <p id="section-6-1">A PE router may receive the same IP prefix via ISF routes with
-      different ISF SAFIs, and from either the same or different BGP peers.
+      different ISF SAFIs and from either the same or different BGP peers.
       Additionally, the same IP prefix (e.g., a host route) may be received in
       both an EVPN MAC/IP Advertisement route and an EVPN IP Prefix route. To
       ensure consistent and deterministic forwarding behavior, a route
@@ -2609,14 +2609,14 @@ Octets
           non-EVPN ISF SAFIs based on commonly used path attributes.<a href="#section-6-3.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-6-3.3">
-          <p id="section-6-3.3.1">To support Equal-Cost Multi-Path (ECMP) forwarding across EVPN
+          <p id="section-6-3.3.1">To support ECMP forwarding across EVPN
           and non-EVPN ISF SAFI routes, where applicable.<a href="#section-6-3.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-6-4">For a given prefix received via one or more non-EVPN ISF routes, the
-      standard BGP best path selection procedure, as defined in <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>, is applied to determine the "non-EVPN best paths."
+      standard BGP best-path selection procedure, as defined in <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span>, is applied to determine the "non-EVPN best paths".
       Similarly, for a given prefix received via one or more EVPN ISF routes,
-      the same procedure is applied to determine the "EVPN best paths."<a href="#section-6-4" class="pilcrow">¶</a></p>
+      the same procedure is applied to determine the "EVPN best paths".<a href="#section-6-4" class="pilcrow">¶</a></p>
 <p id="section-6-5">When both EVPN and non-EVPN ISF routes are present for the same
       prefix within a single IP-VRF, the PE <span class="bcp14">MUST</span> perform a tie-breaking
       selection procedure on the union of these best-path sets. The process
@@ -2658,12 +2658,12 @@ Octets
             <span class="bcp14">MUST</span> be removed from consideration.<a href="#section-6.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
-<p id="section-6.1-3">This procedure extends the standard BGP best path selection
+<p id="section-6.1-3">This procedure extends the standard BGP best-path selection
         behavior as specified in <span>[<a href="#RFC4271" class="cite xref">RFC4271</a>]</span> for IPVPN and EVPN
-        IP Prefix routes by incorporating D-PATH based tie-breaking to prefer
+        IP Prefix routes by incorporating D-PATH-based tie-breaking to prefer
         routes that traverse the fewest Gateway PEs or domains. These rules
         <span class="bcp14">MUST NOT</span> be applied to routes received under AFI/SAFI combinations
-        other than IPVPN or EVPN; such routes - different from IPVPN or EVPN -
+        other than IPVPN or EVPN; such routes -- different from IPVPN or EVPN --
         get treat-as-withdraw procedures if they are received with a D-PATH
         attribute, as described in <a href="#sect-4" class="auto internal xref">Section 4</a>.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 </section>
@@ -2686,7 +2686,7 @@ Octets
 <pre>
 {SAFI=EVPN, RT-2, Local-Pref=100, AS_PATH=(65536,65537)}</pre><a href="#section-6.2-4" class="pilcrow">¶</a>
 </div>
-<p id="section-6.2-5">This outcome is due to Step 3, which gives preference to Route Type
+<p id="section-6.2-5">This outcome is due to Step 3 above, which gives preference to Route Type
         2 when both Type 2 and Type 5 EVPN routes exist.<a href="#section-6.2-5" class="pilcrow">¶</a></p>
 <p id="section-6.2-6">Example 2: PE1 receives two candidate routes for prefix IP2/24, both eligible
         for import into IP-VRF-1:<a href="#section-6.2-6" class="pilcrow">¶</a></p>
@@ -2750,7 +2750,7 @@ Octets
                       Composite PE2</pre>
 </div>
 <figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
-<a href="#name-composite-pe-example" class="selfRef">Composite PE example</a>
+<a href="#name-composite-pe-example" class="selfRef">Composite PE Example</a>
         </figcaption></figure>
 </div>
 <p id="section-7-4">In a composite domain comprising both composite and regular PEs, the
@@ -2761,7 +2761,7 @@ Octets
           PEs <span class="bcp14">MUST</span> advertise the same IP prefixes using each ISF SAFI to the
           Route Reflector (RR), assuming the same RR is used for both ISF
           SAFIs. For example, as shown in <a href="#composite-pe-example" class="auto internal xref">Figure 8</a>, the prefix IP1/24 is advertised by
-          PE1 and PE2 to the Route Reflector in two separate NLRI entries: one
+          PE1 and PE2 to the Route Reflector in two separate Network Layer Reachability Information (NLRI) entries: one
           for AFI/SAFI 1/128 (IPVPN) and another for EVPN. If both routes are
           advertised with the same set of BGP Path Attributes, the receiving
           composite PE will select the EVPN route over the IPVPN route,
@@ -2773,7 +2773,7 @@ Octets
         <dd class="break"></dd>
 <dt id="section-7-5.3">Route Reflector SAFI-Specific Forwarding Behavior</dt>
         <dd style="margin-left: 1.5em" id="section-7-5.4">The Route Reflector does not forward EVPN routes to
-          peers for which the EVPN SAFI is not enabled, and likewise does not
+          peers for which the EVPN SAFI is not enabled and likewise does not
           forward IPVPN routes to peers lacking IPVPN SAFI support. For
           instance, in <a href="#composite-pe-example" class="auto internal xref">Figure 8</a>, the Route
           Reflector does not forward EVPN routes to PE3 if the EVPN SAFI is
@@ -2783,9 +2783,9 @@ Octets
         <dd class="break"></dd>
 <dt id="section-7-5.5">IPVPN PE Route Processing</dt>
         <dd style="margin-left: 1.5em" id="section-7-5.6">Regular IPVPN
-          PEs process and import IPVPN routes as specified in <span>[<a href="#RFC4364" class="cite xref">RFC4364</a>]</span> <span>[<a href="#RFC9252" class="cite xref">RFC9252</a>]</span>. For example, PE3
+          PEs process and import IPVPN routes as specified in <span>[<a href="#RFC4364" class="cite xref">RFC4364</a>]</span> and <span>[<a href="#RFC9252" class="cite xref">RFC9252</a>]</span>. For example, PE3
           receives only the IPVPN route for prefix IP1/24 and resolves the BGP
-          next-hop to an MPLS/SRv6 tunnel (with IP payload) toward PE1 and/or
+          next hop to an MPLS/SRv6 tunnel (with IP payload) toward PE1 and/or
           PE2.<a href="#section-7-5.6" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
@@ -2801,10 +2801,10 @@ Octets
               selection is performed as specified in <a href="#sect-6" class="auto internal xref">Section 6</a>.<a href="#section-7-5.8.2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7-5.8.2.2">
-              <p id="section-7-5.8.2.2.1">If the EVPN route is selected, PE4 resolves the BGP next-hop
+              <p id="section-7-5.8.2.2.1">If the EVPN route is selected, PE4 resolves the BGP next hop
               to a tunnel (which may carry either Ethernet or IP payloads) to
               PE1 and/or PE2. As described in <a href="#sect-3" class="auto internal xref">Section 3</a>, the
-              tunnel type used between EVPN PEs depends on the <span>[<a href="#RFC9136" class="cite xref">RFC9136</a>]</span> model supported.<a href="#section-7-5.8.2.2.1" class="pilcrow">¶</a></p>
+              tunnel type used between EVPN PEs depends on the supported model per <span>[<a href="#RFC9136" class="cite xref">RFC9136</a>]</span>.<a href="#section-7-5.8.2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7-5.8.2.3">
               <p id="section-7-5.8.2.3.1">Other composite PEs (e.g., PE1 and PE2) receiving the same
@@ -2854,7 +2854,7 @@ Octets
       mechanisms required to support ISF route interconnection across such
       domains. These procedures extend the concept of a gateway PE beyond the
       scope of <a href="#sect-3" class="auto internal xref">Section 3</a>, which focuses on Layer 2
-      interconnection, by providing an analogous interconnection model for ISF
+      interconnection by providing an analogous interconnection model for ISF
       route exchange at Layer 3.<a href="#section-8-2" class="pilcrow">¶</a></p>
 <p id="section-8-3">The procedures described in this section apply to both of the
       following scenarios:<a href="#section-8-3" class="pilcrow">¶</a></p>
@@ -2865,7 +2865,7 @@ Octets
 </li>
         <li class="normal" id="section-8-4.2">
           <p id="section-8-4.2.1">Interconnection between domains utilizing the same ISF SAFI
-          (e.g., EVPN to EVPN)<a href="#section-8-4.2.1" class="pilcrow">¶</a></p>
+          (e.g., EVPN to EVPN).<a href="#section-8-4.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-8-5"><a href="#gateway-pe-example" class="auto internal xref">Figure 9</a> provides an illustrative
@@ -2900,12 +2900,12 @@ IP1/24--&gt;      |+------+  |             |+------+  |            |
                                PE7</pre>
 </div>
 <figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
-<a href="#name-gateway-pe-example" class="selfRef">Gateway PE example</a>
+<a href="#name-gateway-pe-example" class="selfRef">Gateway PE Example</a>
         </figcaption></figure>
 </div>
 <p id="section-8-7">Note: "tnls" refers to "tunnels"<a href="#section-8-7" class="pilcrow">¶</a></p>
 <p id="section-8-8">A gateway PE that is enabled for two ISF SAFIs, referred to here as
-      SAFI x and SAFI y, on the same IP-VRF, <span class="bcp14">MUST</span> follow the procedures
+      SAFI x and SAFI y, on the same IP-VRF <span class="bcp14">MUST</span> follow the procedures
       described below for re-originating routes between domains.<a href="#section-8-8" class="pilcrow">¶</a></p>
 <div id="sect-8.1">
 <section id="section-8.1">
@@ -2920,7 +2920,7 @@ IP1/24--&gt;      |+------+  |             |+------+  |            |
 <ol start="1" type="a" class="normal type-a" id="section-8.1-1.1.2">
        <li id="section-8.1-1.1.2.1">
                 <p id="section-8.1-1.1.2.1.1">The route for P is installed in the IP-VRF, indicating that
-                the SAFI x route is well-formed, valid, and selected as the
+                the SAFI x route is well formed, valid, and selected as the
                 best route.<a href="#section-8.1-1.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li id="section-8.1-1.1.2.2">
@@ -2945,10 +2945,10 @@ IP1/24--&gt;      |+------+  |             |+------+  |            |
             following conditions:<a href="#section-8.1-1.2.1" class="pilcrow">¶</a></p>
 <ol start="1" type="a" class="normal type-a" id="section-8.1-1.2.2">
 <li id="section-8.1-1.2.2.1">
-                <p id="section-8.1-1.2.2.1.1">The SAFI x route is not well-formed or valid. Criteria for
+                <p id="section-8.1-1.2.2.1.1">The SAFI x route is not well formed or valid. Criteria for
                 route validity are defined in the corresponding ISF SAFI
                 specification. For example, an EVPN IP Prefix route that
-                contains both a non-zero ESI and a Gateway IP address is
+                contains both a non-zero Ethernet Segment Identifier (ESI) and a Gateway IP address is
                 invalid, as specified in <span>[<a href="#RFC9136" class="cite xref">RFC9136</a>], <a href="https://www.rfc-editor.org/rfc/rfc9136#section-3.2" class="relref">Section 3.2</a></span>.<a href="#section-8.1-1.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li id="section-8.1-1.2.2.2">
@@ -2997,17 +2997,17 @@ IP1/24--&gt;      |+------+  |             |+------+  |            |
             This information is then used by PE6 in BGP path selection.<a href="#section-8.2-2.1.4" class="pilcrow">¶</a></p>
 </li>
           <li id="section-8.2-2.2">
-            <p id="section-8.2-2.2.1">The gateway PE uses the Route Distinguisher (RD) of the IP-VRF
+            <p id="section-8.2-2.2.1">The gateway PE uses the RD of the IP-VRF
             when re-advertising prefix P via ISF SAFI y.<a href="#section-8.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-8.2-2.3">
-            <p id="section-8.2-2.3.1">The encapsulation specific context (e.g., label) allocation is
+            <p id="section-8.2-2.3.1">The encapsulation-specific context (e.g., label) allocation is
             a local matter. The gateway PE <span class="bcp14">MAY</span> use per-VRF, per-prefix, or
             other label allocation models.<a href="#section-8.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-8.2-2.4">
-            <p id="section-8.2-2.4.1">The gateway PE <span class="bcp14">MUST</span> support the use of distinct Route Target
-            (RT) sets per domain on the same IP-VRF. If multiple domains
+            <p id="section-8.2-2.4.1">The gateway PE <span class="bcp14">MUST</span> support the use of distinct
+            RT sets per domain on the same IP-VRF. If multiple domains
             associated with a tenant use different RT sets, the gateway PE
             <span class="bcp14">MUST</span> be capable of importing and exporting routes according to
             each domain's RT configuration.<a href="#section-8.2-2.4.1" class="pilcrow">¶</a></p>
@@ -3030,7 +3030,7 @@ IP1/24--&gt;      |+------+  |             |+------+  |            |
             ESI value will be reset to zero by the time the route reaches PE6,
             as it passed through an ISF SAFI domain that is not EVPN-capable.
             Consequently, certain EVPN-specific functionalities may not be
-            preserved end-to-end.<a href="#section-8.2-2.7.1" class="pilcrow">¶</a></p>
+            preserved end to end.<a href="#section-8.2-2.7.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
@@ -3040,10 +3040,10 @@ IP1/24--&gt;      |+------+  |             |+------+  |            |
 <div id="sect-9">
 <section id="section-9">
       <h2 id="name-interworking-use-cases">
-<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-interworking-use-cases" class="section-name selfRef">Interworking Use-Cases</a>
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-interworking-use-cases" class="section-name selfRef">Interworking Use Cases</a>
       </h2>
 <p id="section-9-1">While network deployments involving Interworking PEs may align with
-      the scenarios described in <a href="#sect-7" class="auto internal xref">Section 7</a> and <a href="#sect-8" class="auto internal xref">Section 8</a>, there are cases where a combination of both gateway
+      the scenarios described in Sections <a href="#sect-7" class="auto internal xref">7</a> and <a href="#sect-8" class="auto internal xref">8</a>, there are cases where a combination of both gateway
       PE and composite PE functionality is required. <a href="#ure-gateway-and-composite-combined-functions-example" class="auto internal xref">Figure 10</a>
       illustrates an example in which gateway PEs also operate as composite
       PEs. In such scenarios, the devices must not only re-originate ISF
@@ -3083,11 +3083,11 @@ TS1-|NVE1|             |             +----+  +-------&gt;|+------+ |
               TS2</pre>
 </div>
 <figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
-<a href="#name-gateway-and-composite-combi" class="selfRef">Gateway and composite combined functions - example</a>
+<a href="#name-gateway-and-composite-combi" class="selfRef">Gateway and Composite Combined Functions Example</a>
         </figcaption></figure>
 </div>
 <p id="section-9-3">Note: "tnls" refers to "tunnels"<a href="#section-9-3" class="pilcrow">¶</a></p>
-<p id="section-9-4">In the example illustrated, PE1 and PE2 follow the procedures defined
+<p id="section-9-4">In <a href="#ure-gateway-and-composite-combined-functions-example" class="auto internal xref">Figure 10</a>, PE1 and PE2 follow the procedures defined
       in Sections <a href="#sect-7" class="auto internal xref">7</a> and <a href="#sect-8" class="auto internal xref">8</a>. Unlike the
       scenario described in <a href="#sect-8" class="auto internal xref">Section 8</a>, PE1 and PE2 are
       additionally required to re-originate ISF routes between EVPN domains
@@ -3095,7 +3095,7 @@ TS1-|NVE1|             |             +----+  +-------&gt;|+------+ |
       important to note that PE1 and PE2 will receive the IP prefix associated
       with TS4 via both IPVPN and EVPN IP Prefix routes. When re-advertising
       the selected route to NVE1 and NVE2, PE1 and PE2 <span class="bcp14">MUST</span> apply the D-PATH
-      handling rules and related attribute processing as described in <a href="#sect-6" class="auto internal xref">Section 6</a> (Route Selection Process).<a href="#section-9-4" class="pilcrow">¶</a></p>
+      handling rules and related attribute processing as described in <a href="#sect-6" class="auto internal xref">Section 6</a> ("Route Selection Process for ISF Routes").<a href="#section-9-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sect-10">
@@ -3104,8 +3104,7 @@ TS1-|NVE1|             |             +----+  +-------&gt;|+------+ |
 <a href="#section-10" class="section-number selfRef">10. </a><a href="#name-bgp-error-handling-on-inter" class="section-name selfRef">BGP Error Handling on Interworking PEs</a>
       </h2>
 <p id="section-10-1">BGP speakers following this specification <span class="bcp14">MUST</span> adhere to the
-      following error-handling procedures when processing Inter-Subnet
-      Forwarding (ISF) routes:<a href="#section-10-1" class="pilcrow">¶</a></p>
+      following error-handling procedures when processing ISF routes:<a href="#section-10-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-10-2.1">
           <p id="section-10-2.1.1">Any BGP UPDATE message for an ISF route that includes a D-PATH
@@ -3136,12 +3135,12 @@ TS1-|NVE1|             |             +----+  +-------&gt;|+------+ |
 <li class="normal" id="section-10-5.1">
           <p id="section-10-5.1.1">If a Gateway PE erroneously propagates the BGP Encapsulation
           Extended Community or the equivalent Encapsulation TLV in the Tunnel
-          Encapsulation Attribute <span>[<a href="#RFC9012" class="cite xref">RFC9012</a>]</span> from one EVPN
+          Encapsulation attribute <span>[<a href="#RFC9012" class="cite xref">RFC9012</a>]</span> from one EVPN
           domain to another, the receiving PE <span class="bcp14">MAY</span> receive two encapsulation
           indications with different values. In such a case, the PE <span class="bcp14">MUST</span>
           follow the procedures in <span>[<a href="#RFC8365" class="cite xref">RFC8365</a>]</span>, which permit
           signaling multiple encapsulation types. As specified in <span>[<a href="#RFC9012" class="cite xref">RFC9012</a>]</span>, encapsulations carried via the Tunnel
-          Encapsulation Attribute <span class="bcp14">MUST</span> be treated as equivalent to those
+          Encapsulation attribute <span class="bcp14">MUST</span> be treated as equivalent to those
           conveyed via the Encapsulation Extended Community.<a href="#section-10-5.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-10-5.2">
@@ -3165,10 +3164,10 @@ TS1-|NVE1|             |             +----+  +-------&gt;|+------+ |
 <a href="#section-11" class="section-number selfRef">11. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <p id="section-11-1">The security considerations outlined in <span>[<a href="#RFC9136" class="cite xref">RFC9136</a>]</span>
-        <span>[<a href="#RFC8365" class="cite xref">RFC8365</a>]</span> for ISF EVPN routes and <span>[<a href="#RFC4364" class="cite xref">RFC4364</a>]</span> for ISF IPVPN routes are applicable to this
+      and <span>[<a href="#RFC8365" class="cite xref">RFC8365</a>]</span> for ISF EVPN routes and <span>[<a href="#RFC4364" class="cite xref">RFC4364</a>]</span> for ISF IPVPN routes are applicable to this
       specification. In addition, the security considerations sections in
-      <span>[<a href="#RFC9252" class="cite xref">RFC9252</a>]</span>, <span>[<a href="#RFC7606" class="cite xref">RFC7606</a>]</span>, as well as the
-      entire text in <span>[<a href="#RFC4272" class="cite xref">RFC4272</a>]</span> are relevant to this
+      <span>[<a href="#RFC9252" class="cite xref">RFC9252</a>]</span> and <span>[<a href="#RFC7606" class="cite xref">RFC7606</a>]</span>, as well as the
+      entire text in <span>[<a href="#RFC4272" class="cite xref">RFC4272</a>]</span>, are relevant to this
       document.<a href="#section-11-1" class="pilcrow">¶</a></p>
 <p id="section-11-2">This document introduces the D-PATH Path Attribute (<a href="#sect-4" class="auto internal xref">Section 4</a>), which provides a mechanism for control-plane loop
       prevention when ISF IPVPN and EVPN routes are re-originated across
@@ -3199,14 +3198,14 @@ TS1-|NVE1|             |             +----+  +-------&gt;|+------+ |
       <span>[<a href="#RFC7606" class="cite xref">RFC7606</a>]</span>.<a href="#section-11-4" class="pilcrow">¶</a></p>
 <p id="section-11-5">As a further safeguard, implementations <span class="bcp14">SHOULD</span> enforce local policy
       on upgraded PEs to discard any ISF EVPN or IPVPN routes received from
-      non-upgraded peers if such routes include a D-PATH attribute, to prevent
+      non-upgraded peers if such routes include a D-PATH attribute to prevent
       unintended propagation. The mechanism by which an implementation
       determines that ISF EVPN or IPVPN routes are received from non-upgraded
       peers is outside the scope of this document.<a href="#section-11-5" class="pilcrow">¶</a></p>
 <p id="section-11-6"><a href="#sect-5.2" class="auto internal xref">Section 5.2</a> of this document introduces Uniform
       Propagation Mode, which enables gateway PEs to propagate a consistent
       set of BGP Path Attributes across domain boundaries. This mode enhances
-      operational visibility by preserving attributes end-to-end along the
+      operational visibility by preserving attributes end to end along the
       route path. However, it also introduces the possibility that an attacker
       could inject malformed or semantically inappropriate, but syntactically
       correct, attributes that influence BGP path selection in remote
@@ -3228,11 +3227,11 @@ TS1-|NVE1|             |             +----+  +-------&gt;|+------+ |
       <h2 id="name-iana-considerations">
 <a href="#section-12" class="section-number selfRef">12. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-12-1">This document defines a new BGP path attribute known as the BGP
+<p id="section-12-1">This document defines a new BGP Path Attribute known as the BGP
       D-PATH attribute.<a href="#section-12-1" class="pilcrow">¶</a></p>
 <p id="section-12-2">IANA has assigned a new attribute code type from the "BGP Path
       Attributes" registry in the "Border Gateway Protocol (BGP) Parameters"
-      registry group:<a href="#section-12-2" class="pilcrow">¶</a></p>
+      registry group as follows:<a href="#section-12-2" class="pilcrow">¶</a></p>
 <table class="center" id="table-2">
         <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
 <thead>
@@ -3355,10 +3354,10 @@ TS1-|NVE1|             |             +----+  +-------&gt;|+------+ |
 <p id="appendix-A-1">The authors want to thank <span class="contact-name">Russell Kelly</span>,
       <span class="contact-name">Dhananjaya Rao</span>, <span class="contact-name">Suresh       Basavarajappa</span>, <span class="contact-name">Mallika Gautam</span>, <span class="contact-name">Senthil Sathappan</span>, <span class="contact-name">Arul Mohan Jovel</span>,
       <span class="contact-name">Naveen Tubugere</span>, <span class="contact-name">Mathanraj       Petchimuthu</span>, <span class="contact-name">Eduard Vasilenko</span>, <span class="contact-name">Amit Kumar</span>, <span class="contact-name">Mohit Kumar</span>, <span class="contact-name">Lukas Krattiger</span>, <span class="contact-name">Gyan Mishra</span>, and
-      <span class="contact-name">Stephane Litkowski</span> for their review and
-      suggestions. Thanks to <span class="contact-name">Sue Hares</span> and <span class="contact-name">Jeff Haas</span> as well, for their detailed review to clarify the
-      procedures of the D-PATH attribute. The authors want to also thank
-      especially <span class="contact-name">Gunter van de Velde</span> and <span class="contact-name">Ketan Talaulikar</span> for the thorough review that helped raise
+      <span class="contact-name">Stephane Litkowski</span> for their reviews and
+      suggestions. Thanks to <span class="contact-name">Sue Hares</span> and <span class="contact-name">Jeff Haas</span> as well for their detailed reviews to clarify the
+      procedures of the D-PATH attribute. The authors want to also
+      especially thank <span class="contact-name">Gunter van de Velde</span> and <span class="contact-name">Ketan Talaulikar</span> for the thorough reviews that helped raise
       the quality of the document significantly.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 </section>
 </div>
