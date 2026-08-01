@@ -460,7 +460,7 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
           </ul>
           <t>These two functions may be implemented independently on a
           per-tenant basis and may also coexist for the same tenant on a
-          single PE.</t>
+          a single PE.</t>
           <t>Example: <xref target="evpn-ipvpn-interworking-pe" format="default"/> shows an interworking PE
           where ISF SAFIs are enabled. IP-VRF1 and MAC-VRF1 are instantiated
           on the PE and together provide inter-subnet forwarding for the
@@ -573,7 +573,7 @@ Octets
         +-----------------------+-----------+]]></artwork>
       </figure>
       <dl spacing="normal" newline="false">
-        <dt>Domain Segment Length:</dt><dd>Length is 1 octet. Contains the number of
+        <dt>Domain Segment Length:</dt><dd>A 1-octet length field. Contains the number of
           domains in the segment.</dd>
 
 <!--[rfced] May we update this entry to follow the pattern in the list, 
@@ -839,7 +839,7 @@ Perhaps:
           <t>A per tenant IP-VRF DOMAIN-ID assignment is particularly
           useful in scenarios involving route leaking. For example, consider
           two gateway PEs, PE1 and PE2, both associated with different tenant
-          IP-VRFs, denoted as IP-VRF-1 and IP-VRF-2. If PE1 advertises ISF
+          IP-VRFs and denoted as IP-VRF-1 and IP-VRF-2, respectively. If PE1 advertises ISF
           SAFI routes for IP-VRF-1 with a DOMAIN-ID of 6500:1, and these
           routes are received on PE2 and subsequently leaked from IP-VRF-1
           into IP-VRF-2, the re-advertisement of the routes from PE2 back to
@@ -855,7 +855,7 @@ Perhaps:
           D-PATH attribute with an ISF_SAFI_TYPE value of 0 when exporting the
           leaked route into an ISF SAFI. In such cases, the total number of
           domain entries in the D-PATH attribute reflects not only the number
-          of Gateway PEs through which the ISF route has been re-originated,
+          of Gateway PEs through which the ISF route has been re-originated
           but also the number of tenant IP-VRF instances across those Gateway
           PEs.</t>
         </li>
@@ -866,7 +866,7 @@ Perhaps:
 	    <li>
               <t>A received D-PATH attribute <bcp14>MUST</bcp14> be considered malformed if
               it contains a malformed Domain Segment or if the total length of
-              the D-PATH attribute is less than eight octets.</t>
+              the D-PATH attribute is less than 8 octets.</t>
             </li>
             <li>
               <t>A Domain Segment <bcp14>MUST</bcp14> be considered malformed under any of
@@ -880,13 +880,13 @@ Perhaps:
                   length of the enclosing D-PATH attribute.</t>
                 </li>
                 <li>
-                  <t>Fewer than eight octets remain after the last
+                  <t>Fewer than 8 octets remain after the last
                   successfully parsed Domain Segment.</t>
                 </li>
                 <li>
-                  <t>Each Domain Segment consists of a one-octet length field
+                  <t>Each Domain Segment consists of a 1-octet length field
                   indicating the number of Domains in the segment, with each
-                  Domain encoded in seven octets. If the total length of the
+                  Domain encoded in 7 octets. If the total length of the
                   Domain Segment (i.e., 1 + 7 x number of Domains)
                   exceeds the remaining length of the D-PATH attribute, the
                   Domain Segment is considered malformed.</t>
@@ -917,14 +917,14 @@ Perhaps:
               included with any other AFI/SAFI combinations. If a D-PATH
               attribute is received in an UPDATE message associated with an
               unsupported AFI/SAFI, the "treat-as-withdraw" procedure <bcp14>MUST</bcp14> be
-              applied, in accordance with <xref target="RFC7606" format="default"/>.</t>
+              applied in accordance with <xref target="RFC7606" format="default"/>.</t>
             </li>
           </ul>
         </li>
       </ol>
     </section>
     <section anchor="sect-5" numbered="true" toc="default">
-      <name>BGP Path Attribute Propagation across Domains</name>
+      <name>BGP Path Attribute Propagation Across Domains</name>
       <t>A Gateway PE, depending on its local configuration, is required to
       re-originate an ISF route between two domains that utilize either the
       same or different ISF SAFIs. This requires defining how a Gateway PE
@@ -943,8 +943,8 @@ Perhaps:
         re-origination of an ISF route, treating it in the same manner as a
         directly connected or locally originated IP prefix.</t>
         <t>This mode is suitable for deployment scenarios where the source
-        domain - for example, an EVPN domain - is "abstracted" and treated as
-        a virtual CE, and where remote IPVPN or IP-based PEs do not rely on
+        domain -- for example, an EVPN domain -- is "abstracted" and treated as
+        a virtual Customer Edge (CE), and where remote IPVPN or IP-based PEs do not rely on
         the BGP Path Attributes of the source EVPN domain for best-path
         selection or the application of routing policy.</t>
         <t>It is important to note that, in No-Propagation Mode, the D-PATH
@@ -960,9 +960,9 @@ Perhaps:
         consistent set of commonly used BGP Path Attributes when
         re-originating an ISF route between domains. This mode is typically
         employed in deployments where IP prefixes are seamlessly distributed
-        using both EVPN and/or IPVPN SAFIs. This specification permits the
+        using EVPN and/or IPVPN SAFIs. This specification permits the
         propagation of a limited set of commonly used attributes, while
-        discouraging indiscriminate copying and re-advertisement, primarily
+        discouraging indiscriminate copying and re-advertisement primarily
         for security reasons.</t>
         <t>The following normative behavior <bcp14>MUST</bcp14> be followed by a Gateway PE
         operating in Uniform Propagation Mode:</t>
@@ -984,11 +984,20 @@ Perhaps:
               </li>
               <li>
                 <t>IBGP-only attributes (when advertising to IBGP peers):
-                LOCAL_PREF, ORIGINATOR_ID, CLUSTER_ID</t>
+                LOCAL_PREF, ORIGINATOR_ID, and CLUSTER_ID</t>
               </li>
               <li>
                 <t>MULTI_EXIT_DISC (MED)</t>
               </li>
+
+<!--[rfced] For clarity, may we expand "AIGP" (Section 5.2) as shown below?
+
+Original:
+  AIGP [RFC7311]
+
+Perhaps:
+    he Accumulated IGP (AIGP) Metric Attribute [RFC7311]
+-->             
               <li>
                 <t>AIGP <xref target="RFC7311" format="default"/></t>
               </li>
@@ -1007,7 +1016,7 @@ Perhaps:
           <li>
             <t>When re-originating an ISF route to IBGP peers, the gateway PE
             <bcp14>SHOULD</bcp14> retain IBGP-only attributes (e.g., LOCAL_PREF,
-            ORIGINATOR_ID, CLUSTER_ID) from the original ISF route. As the
+            ORIGINATOR_ID, and CLUSTER_ID) from the original ISF route. As the
             route is re-originated, the gateway PE is not required to perform
             the Route Reflector function described in <xref target="RFC4456" format="default"/>.</t>
           </li>
@@ -1055,7 +1064,7 @@ Perhaps:
             into a different domain. If multiple paths are received for the
             same prefix within the same ISF SAFI, the standard BGP best path
             selection procedure <bcp14>MUST</bcp14> be applied to determine the active path
-            and its associated attributes. Even when Equal-Cost Multi-Path
+            and its associated attributes. Even when Equal-Cost Multipath
             (ECMP) is enabled for the IP-VRF, only the Path Attributes of the
             selected best path <bcp14>SHOULD</bcp14> be propagated.</t>
           </li>
@@ -1072,8 +1081,8 @@ Perhaps:
         Aggregation of multiple ISF routes of one ISF SAFI into an aggregate
         ISF route is only done by a gateway PE.</t>
         <t>Aggregation on gateway PEs may use either the No-Propagation-Mode
-        or the Uniform-Propagation-Mode explained in <xref target="sect-5.1" format="default"/>
-        and <xref target="sect-5.2" format="default"/>, respectively.</t>
+        or the Uniform-Propagation-Mode explained in Sections <xref target="sect-5.1" format="counter"/>
+        and <xref target="sect-5.2" format="counter"/>, respectively.</t>
         <t>When using Uniform-Propagation-Mode, Path Attributes of the same
         type code <bcp14>MAY</bcp14> be aggregated according to the following rules:</t>
         <ul spacing="normal">
@@ -1097,16 +1106,16 @@ Perhaps:
             D-PATH usage into the destination domain.</t>
           </li>
           <li>
-            <t>The Community, Extended Community and Large Community
+            <t>The Community, Extended Community, and Large Community
             attributes of an aggregated ISF route <bcp14>SHOULD</bcp14> include the union of
             the corresponding attributes from all constituent ISF routes that
             were aggregated, with the exception of those Extended Community
-            types explicitly excluded from propagation as specified in <xref target="sect-5.2" format="default"/>, or those for which the applicable
+            types explicitly excluded from propagation as specified in <xref target="sect-5.2" format="default"/> or those for which the applicable
             specifications define different handling.</t>
           </li>
           <li>
-            <t>For other attributes, rules in <xref target="RFC4271" format="default"/> or the
-            attribute applicable specifications are followed.</t>
+            <t>For other attributes, rules described in <xref target="RFC4271" format="default"/> or the
+            attribute-applicable specifications are followed.</t>
           </li>
         </ul>
         <t>If the conditions for route aggregation, as specified above, are
@@ -1119,7 +1128,7 @@ Perhaps:
     <section anchor="sect-6" numbered="true" toc="default">
       <name>Route Selection Process for ISF Routes</name>
       <t>A PE router may receive the same IP prefix via ISF routes with
-      different ISF SAFIs, and from either the same or different BGP peers.
+      different ISF SAFIs and from either the same or different BGP peers.
       Additionally, the same IP prefix (e.g., a host route) may be received in
       both an EVPN MAC/IP Advertisement route and an EVPN IP Prefix route. To
       ensure consistent and deterministic forwarding behavior, a route
@@ -1136,14 +1145,14 @@ Perhaps:
           non-EVPN ISF SAFIs based on commonly used path attributes.</t>
         </li>
         <li>
-          <t>To support Equal-Cost Multi-Path (ECMP) forwarding across EVPN
+          <t>To support ECMP forwarding across EVPN
           and non-EVPN ISF SAFI routes, where applicable.</t>
         </li>
       </ul>
       <t>For a given prefix received via one or more non-EVPN ISF routes, the
-      standard BGP best path selection procedure, as defined in <xref target="RFC4271" format="default"/>, is applied to determine the "non-EVPN best paths."
+      standard BGP best path selection procedure, as defined in <xref target="RFC4271" format="default"/>, is applied to determine the "non-EVPN best paths".
       Similarly, for a given prefix received via one or more EVPN ISF routes,
-      the same procedure is applied to determine the "EVPN best paths."</t>
+      the same procedure is applied to determine the "EVPN best paths".</t>
       <t>When both EVPN and non-EVPN ISF routes are present for the same
       prefix within a single IP-VRF, the PE <bcp14>MUST</bcp14> perform a tie-breaking
       selection procedure on the union of these best-path sets. The process
@@ -1183,10 +1192,10 @@ Perhaps:
         </ol>
         <t>This procedure extends the standard BGP best path selection
         behavior as specified in <xref target="RFC4271" format="default"/> for IPVPN and EVPN
-        IP Prefix routes by incorporating D-PATH based tie-breaking to prefer
+        IP Prefix routes by incorporating D-PATH-based tie-breaking to prefer
         routes that traverse the fewest Gateway PEs or domains. These rules
         <bcp14>MUST NOT</bcp14> be applied to routes received under AFI/SAFI combinations
-        other than IPVPN or EVPN; such routes - different from IPVPN or EVPN -
+        other than IPVPN or EVPN; such routes -- different from IPVPN or EVPN --
         get treat-as-withdraw procedures if they are received with a D-PATH
         attribute, as described in <xref target="sect-4" format="default"/>.</t>
       </section>
@@ -1203,7 +1212,7 @@ Perhaps:
         <artwork name="" type="" align="left" alt=""><![CDATA[
 {SAFI=EVPN, RT-2, Local-Pref=100, AS_PATH=(65536,65537)}]]></artwork>
 
-        <t>This outcome is due to Step 3, which gives preference to Route Type
+        <t>This outcome is due to Step 3 above, which gives preference to Route Type
         2 when both Type 2 and Type 5 EVPN routes exist.</t>
 
         <t>Example 2: PE1 receives two candidate routes for prefix IP2/24, both eligible
@@ -1230,7 +1239,7 @@ Perhaps:
       and IPVPN ISF SAFIs on their peering to the Route Reflector), and PE3 is
       a regular IPVPN PE.</t>
       <figure anchor="composite-pe-example">
-        <name>Composite PE example</name>
+        <name>Composite PE Example</name>
         <artwork name="" type="" align="left" alt=""><![CDATA[
              +-----------------------------------+
              |                                   |
@@ -1267,7 +1276,7 @@ Perhaps:
           PEs <bcp14>MUST</bcp14> advertise the same IP prefixes using each ISF SAFI to the
           Route Reflector (RR), assuming the same RR is used for both ISF
           SAFIs. For example, as shown in <xref target="composite-pe-example" format="default"/>, the prefix IP1/24 is advertised by
-          PE1 and PE2 to the Route Reflector in two separate NLRI entries: one
+          PE1 and PE2 to the Route Reflector in two separate Network Layer Reachability Information (NLRI) entries: one
           for AFI/SAFI 1/128 (IPVPN) and another for EVPN. If both routes are
           advertised with the same set of BGP Path Attributes, the receiving
           composite PE will select the EVPN route over the IPVPN route,
@@ -1277,7 +1286,7 @@ Perhaps:
           unnecessary replacement if the IPVPN route arrives later.</dd>
         <dt>Route Reflector SAFI-Specific Forwarding Behavior</dt>
           <dd>The Route Reflector does not forward EVPN routes to
-          peers for which the EVPN SAFI is not enabled, and likewise does not
+          peers for which the EVPN SAFI is not enabled and likewise does not
           forward IPVPN routes to peers lacking IPVPN SAFI support. For
           instance, in <xref target="composite-pe-example" format="default"/>, the Route
           Reflector does not forward EVPN routes to PE3 if the EVPN SAFI is
@@ -1285,9 +1294,9 @@ Perhaps:
           are forwarded to all PEs since they all have IPVPN SAFI enabled.</dd>
         <dt>IPVPN PE Route Processing</dt>
           <dd>Regular IPVPN
-          PEs process and import IPVPN routes as specified in <xref target="RFC4364" format="default"/> <xref target="RFC9252" format="default"/>. For example, PE3
+          PEs process and import IPVPN routes as specified in <xref target="RFC4364" format="default"/> and <xref target="RFC9252" format="default"/>. For example, PE3
           receives only the IPVPN route for prefix IP1/24 and resolves the BGP
-          next-hop to an MPLS/SRv6 tunnel (with IP payload) toward PE1 and/or
+          next hop to an MPLS/SRv6 tunnel (with IP payload) toward PE1 and/or
           PE2.</dd>
         <dt>Composite PE Route Selection</dt>
           <dd><t>Composite PEs
@@ -1300,10 +1309,10 @@ Perhaps:
               selection is performed as specified in <xref target="sect-6" format="default"/>.</t>
             </li>
             <li>
-              <t>If the EVPN route is selected, PE4 resolves the BGP next-hop
+              <t>If the EVPN route is selected, PE4 resolves the BGP next hop
               to a tunnel (which may carry either Ethernet or IP payloads) to
               PE1 and/or PE2. As described in <xref target="sect-3" format="default"/>, the
-              tunnel type used between EVPN PEs depends on the <xref target="RFC9136" format="default"/> model supported.</t>
+              tunnel type used between EVPN PEs depends on the supported model per <xref target="RFC9136" format="default"/>.</t>
             </li>
             <li>
               <t>Other composite PEs (e.g., PE1 and PE2) receiving the same
@@ -1344,7 +1353,7 @@ Perhaps:
       mechanisms required to support ISF route interconnection across such
       domains. These procedures extend the concept of a gateway PE beyond the
       scope of <xref target="sect-3" format="default"/>, which focuses on Layer 2
-      interconnection, by providing an analogous interconnection model for ISF
+      interconnection by providing an analogous interconnection model for ISF
       route exchange at Layer 3.</t>
       <t>The procedures described in this section apply to both of the
       following scenarios: </t>
@@ -1355,7 +1364,7 @@ Perhaps:
         </li>
         <li>
           <t>Interconnection between domains utilizing the same ISF SAFI
-          (e.g., EVPN to EVPN)</t>
+          (e.g., EVPN to EVPN).</t>
         </li>
       </ul>
       <t><xref target="gateway-pe-example" format="default"/> provides an illustrative
@@ -1363,7 +1372,7 @@ Perhaps:
       operate as gateway PEs interconnecting different domains associated with
       the same tenant.</t>
       <figure anchor="gateway-pe-example">
-        <name>Gateway PE example</name>
+        <name>Gateway PE Example</name>
         <artwork name="" type="" align="left" alt=""><![CDATA[
    <----EVPN---->    <----------IPVPN--------->   <----EVPN---->
      6500:1:EVPN             6500:2:IPVPN           6500:3:EVPN
@@ -1390,7 +1399,7 @@ IP1/24-->      |+------+  |             |+------+  |            |
       </figure>
 <t>Note: "tnls" refers to "tunnels"</t>
       <t>A gateway PE that is enabled for two ISF SAFIs, referred to here as
-      SAFI x and SAFI y, on the same IP-VRF, <bcp14>MUST</bcp14> follow the procedures
+      SAFI x and SAFI y, on the same IP-VRF <bcp14>MUST</bcp14> follow the procedures
       described below for re-originating routes between domains.</t>
       <section anchor="sect-8.1" numbered="true" toc="default">
         <name>Export Conditions</name>
@@ -1401,7 +1410,7 @@ IP1/24-->      |+------+  |             |+------+  |            |
             <ol spacing="normal" type="a">
 	      <li>
                 <t>The route for P is installed in the IP-VRF, indicating that
-                the SAFI x route is well-formed, valid, and selected as the
+                the SAFI x route is well formed, valid, and selected as the
                 best route.</t>
               </li>
               <li>
@@ -1425,10 +1434,10 @@ IP1/24-->      |+------+  |             |+------+  |            |
             into an IP-VRF <bcp14>MUST NOT</bcp14> export P using SAFI y under any of the
             following conditions:</t>
             <ol spacing="normal" type="a"><li>
-                <t>The SAFI x route is not well-formed or valid. Criteria for
+                <t>The SAFI x route is not well formed or valid. Criteria for
                 route validity are defined in the corresponding ISF SAFI
                 specification. For example, an EVPN IP Prefix route that
-                contains both a non-zero ESI and a Gateway IP address is
+                contains both a non-zero Ethernet Segment Identifier (ESI) and a Gateway IP address is
                 invalid, as specified in <xref target="RFC9136" sectionFormat="comma" section="3.2"/>.</t>
               </li>
               <li>
@@ -1473,17 +1482,17 @@ IP1/24-->      |+------+  |             |+------+  |            |
             This information is then used by PE6 in BGP path selection.</t>
           </li>
           <li>
-            <t>The gateway PE uses the Route Distinguisher (RD) of the IP-VRF
+            <t>The gateway PE uses the RD of the IP-VRF
             when re-advertising prefix P via ISF SAFI y.</t>
           </li>
           <li>
-            <t>The encapsulation specific context (e.g., label) allocation is
+            <t>The encapsulation-specific context (e.g., label) allocation is
             a local matter. The gateway PE <bcp14>MAY</bcp14> use per-VRF, per-prefix, or
             other label allocation models.</t>
           </li>
           <li>
-            <t>The gateway PE <bcp14>MUST</bcp14> support the use of distinct Route Target
-            (RT) sets per domain on the same IP-VRF. If multiple domains
+            <t>The gateway PE <bcp14>MUST</bcp14> support the use of distinct
+            RT sets per domain on the same IP-VRF. If multiple domains
             associated with a tenant use different RT sets, the gateway PE
             <bcp14>MUST</bcp14> be capable of importing and exporting routes according to
             each domain's RT configuration.</t>
