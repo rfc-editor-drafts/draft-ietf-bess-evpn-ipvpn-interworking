@@ -16,7 +16,7 @@ ISSN: 2070-1721                                                    Cisco
                                                              Independent
                                                               A. Simpson
                                                                    Nokia
-                                                              March 2026
+                                                             August 2026
 
 
                  Interconnecting EVPN and IPVPN Domains
@@ -24,20 +24,19 @@ ISSN: 2070-1721                                                    Cisco
 Abstract
 
    Ethernet Virtual Private Network (EVPN) provides a unified BGP
-   control plane for both intra- and inter-subnet forwarding within
-   tenant networks.  When a tenant network spans multiple domains,
-   including any combination of EVPN and IPVPN domains, it becomes
-   necessary to define the interworking mechanisms among these BGP
-   domains (EVPN and IPVPN) to ensure seamless end-to-end tenant
+   control plane for both intra-subnet and inter-subnet forwarding (ISF)
+   within tenant networks.  When a tenant network spans multiple
+   domains, including any combination of EVPN and IPVPN domains, it
+   becomes necessary to define the interworking mechanisms among these
+   BGP domains (EVPN and IPVPN) to ensure seamless end-to-end tenant
    connectivity.  This document defines these interworking procedures.
 
    In addition, this document defines a new BGP Path Attribute, referred
    to as Domain PATH (D-PATH), which provides loop prevention for
    gateway nodes by protecting against control plane loops.  The
    introduction of D-PATH modifies the BGP best-path selection process
-   for Multiprotocol BGP Inter-Subnet Forwarding (ISF) routes of
-   Subsequent Address Family Identifiers (SAFI) 128 (IPVPN) and SAFI 70
-   (EVPN).
+   for Multiprotocol BGP ISF routes of Subsequent Address Family
+   Identifiers (SAFIs) 128 (IPVPN) and 70 (EVPN).
 
 Status of This Memo
 
@@ -98,7 +97,7 @@ Table of Contents
 1.  Introduction and Problem Statement
 
    EVPN is used as a unified BGP control plane to support both intra-
-   subnet and inter-subnet forwarding for tenant networks.  In
+   subnet and inter-subnet forwarding (ISF) for tenant networks.  In
    deployments where a tenant network spans multiple domains, some of
    which use EVPN and others of which rely on BGP VPN-IPv4/VPN-IPv6
    address families for inter-subnet forwarding, it becomes necessary to
@@ -115,7 +114,7 @@ Table of Contents
    To support loop prevention in scenarios where redundant gateway
    Provider Edges (PEs) interconnect distinct domains, this
    specification introduces a new BGP Path Attribute called the Domain
-   Path (D-PATH).  In topologies where multiple gateways connect
+   PATH (D-PATH).  In topologies where multiple gateways connect
    domains, control plane loops may occur if routes are redistributed
    between domains without proper safeguards.  For example, if gateway
    PE1 imports an IPVPN route for a given prefix and redistributes it as
@@ -152,10 +151,10 @@ Table of Contents
    which is responsible for interconnecting different domains.  An
    Interworking PE implements the following behavior: It imports routes
    from one domain (along with the domain-specific encapsulation
-   parameters), installs them in an IP-VRF (IP Virtual Routing and
-   Forwarding) table [RFC9135], and re-originates the routes with the
+   parameters), installs them in an IP Virtual Routing and Forwarding
+   (IP-VRF) table [RFC9135], and re-originates the routes with the
    encapsulation attributes suitable for the adjacent domain before
-   advertisement.  This reorigination process enables the solution to
+   advertisement.  This re-origination process enables the solution to
    operate independently of the transport encapsulation mechanisms used
    within each domain and serves as a service interworking function.
 
@@ -230,7 +229,7 @@ Table of Contents
 
                    Figure 1: EVPN-IPVPN Interworking PE
 
-   Note: "tnl" refers to "tunnel"
+   Note: "tnl" refers to "tunnel".
 
    AC:  An Attachment Circuit or logical interface associated to a given
       BT or IP-VRF.  To determine the AC on which a packet arrived, the
@@ -256,7 +255,7 @@ Table of Contents
    CE:  A Customer Edge device.
 
    Composite Domain:  a domain in which multiple control plane ISF
-      SAFIs, i.e., IPVPN and/or EVPN, are used and which is composed of
+      SAFIs, i.e., IPVPN and/or EVPN, are used and that is composed of
       regular PEs and composite PEs; see below.
 
    Composite PE:  An Interworking PE that is connected to -- at least --
@@ -264,15 +263,15 @@ Table of Contents
       to multiple types of peers using appropriate route types.
       Specifically, a Composite PE advertises the prefix to an IPVPN
       peer using an IPVPN ISF route, to an EVPN peer using an EVPN ISF
-      route, and to an Route Reflector (RR) [RFC4456] using both IPVPN
+      route, and to a Route Reflector (RR) [RFC4456] using both IPVPN
       and EVPN ISF routes (assuming the same RR is used for IPVPN and
       EVPN).  A Composite PE implements the procedures defined in
       Section 7.
 
-      Example: Figure 2 shows a scenario where PE1 is a composite PE,
-      since PE1 has EVPN and another ISF SAFI enabled to the same Route
-      Reflector, and PE1 advertises a given IP prefix IPn/x twice: once
-      using EVPN and once using ISF SAFI 128.  PE2 and PE3 are not
+      Example: Figure 2 shows an example where PE1 is a composite PE
+      since PE1 has EVPN and another ISF SAFI enabled to the same RR,
+      and PE1 advertises a given IP prefix IPn/x twice, one using EVPN
+      and one another one using ISF SAFI 128.  PE2 and PE3 are not
       composite PEs.
 
                                       +---+
@@ -443,10 +442,10 @@ Table of Contents
       *  Gateway PE
 
       These two functions may be implemented independently on a per-
-      tenant basis and may also coexist for the same tenant on a a
-      single PE.
+      tenant basis and may also coexist for the same tenant on a single
+      PE.
 
-      Example: Figure 1 shows an interworking PE where ISF SAFIs are
+      Example: Figure 1 shows an Interworking PE where ISF SAFIs are
       enabled.  IP-VRF1 and MAC-VRF1 are instantiated on the PE and
       together provide inter-subnet forwarding for the tenant.
 
@@ -460,26 +459,26 @@ Table of Contents
       and allows the forwarding of packets with the destination in a
       different subnet.
 
-   ISF route:  An Inter-Subnet Forwarding route for a given prefix,
+   ISF route:  An inter-subnet forwarding route for a given prefix,
       whose ISF SAFI may change as it transits different domains.  IPVPN
       routes as in [RFC4364], [RFC4659], EVPN IP Prefix routes as in
       [RFC9136] or EVPN MAC/IP Advertisement routes when they are
       programmed within an IP-VRF [RFC9135], are considered ISF routes
       in this document.
 
-   ISF SAFI:  The Inter-Subnet Forwarding Subsequent Address Family
-      Identifier defines a Multiprotocol Border Gateway Protocol (MP-
-      BGP) [RFC4760] Sub-Address Family used to advertise IP prefix
-      reachability for inter-subnet forwarding within a tenant network.
-      The SAFIs used for ISF include 1 (applicable only to IPv4 and IPv6
-      AFIs), 128 (applicable only to IPv4 and IPv6 AFIs), and 70 (EVPN,
-      applicable only to AFI 25).  The procedures defined in this
-      document apply only to SAFI 128 and SAFI 70.  Accordingly, for the
-      purposes of this document, the term "ISF SAFI" refers exclusively
-      to SAFI 128 or SAFI 70.  The routes for these ISF SAFIs are
-      referred to as IPVPN and EVPN routes.  Note that the term "ISF
-      SAFI" does not define a new SAFI; it is used solely as a
-      collective reference to SAFI 128 and SAFI 70.
+   ISF SAFI:  The inter-subnet forwarding Subsequent Address Family
+      Identifier defines a Multiprotocol BGP (MP-BGP) [RFC4760] Sub-
+      Address Family used to advertise IP prefix reachability for inter-
+      subnet forwarding within a tenant network.  The SAFIs used for ISF
+      include 1 (applicable only to IPv4 and IPv6 AFIs), 128 (applicable
+      only to IPv4 and IPv6 AFIs), and 70 (EVPN, applicable only to AFI
+      25).  The procedures defined in this document apply only to SAFI
+      128 and SAFI 70.  Accordingly, for the purposes of this document,
+      the term "ISF SAFI" refers exclusively to SAFI 128 or SAFI 70.
+      The routes for these ISF SAFIs are referred to as IPVPN and EVPN
+      routes.  Note that the term "ISF SAFI" does not define a new SAFI;
+      it is used solely as a collective reference to SAFI 128 and SAFI
+      70.
 
    MAC-VRF:  A MAC Virtual Routing and Forwarding table, as defined in
       [RFC7432].  A MAC-VRF represents the instantiation of an EVI on a
@@ -521,7 +520,7 @@ Table of Contents
    PE:  A Provider Edge device.
 
    Regular Domain:  A domain in which a single control plane ISF SAFI,
-      i.e., IPVPN or EVPN, is used.  A Regular Domain is composed of
+      i.e., IPVPN or EVPN, is used.  A regular domain is composed of
       regular PEs; see the definition below.  In Figures 4 and 5, all
       domains are regular domains.
 
@@ -535,8 +534,8 @@ Table of Contents
 
 4.  Domain Path (D-PATH) Attribute
 
-   The BGP D-PATH attribute is an optional and transitive BGP path
-   attribute.
+   The BGP D-PATH attribute is an optional and transitive BGP Path
+   Attribute.
 
    Similar to AS_PATH, D-PATH is composed of a sequence of Domain
    segments.  Each Domain segment is composed of <domain segment length,
@@ -589,14 +588,14 @@ Table of Contents
       Gateway PEs attached to the same domain MUST use the same DOMAIN-
       ID value to represent that domain.  Expressing the Global
       Administrator and Local Administrator values as opaque unsigned
-      integers in user interface and reporting (e.g., Command Line
-      Interface (CLI) / YANG) is RECOMMENDED.
+      integers in user interface and reporting (e.g., command-line
+      interface (CLI) / YANG) is RECOMMENDED.
 
-   ISF_SAFI_TYPE:  A 1-octet field that indicates the Inter-Subnet
-      Forwarding SAFI type in which a route was received by the gateway
+   ISF_SAFI_TYPE:  A 1-octet field that indicates the inter-subnet
+      forwarding SAFI type in which a route was received by the gateway
       PE before the route is re-exported by the gateway PE into a
       different domain.  The ISF_SAFI_TYPE field is informational and
-      does not have any impact on the loop detection or BGP Path
+      does not have any impact on the loop detection or BGP path
       selection procedures.  Encoding the ISF_SAFI_TYPE provides
       operational benefits, as it allows operators to verify that the
       intended interworking is in place and that the route has traversed
@@ -669,8 +668,8 @@ Table of Contents
           SAFI route, if the gateway PE needs to export that prefix to a
           BGP peer, the gateway PE MUST prepend a <DOMAIN-
           ID:ISF_SAFI_TYPE> to the list of domains in the D-PATH of the
-          received route, as long as the gateway PE works in Uniform-
-          Propagation-Mode (as explained in Section 5.2) and the use of
+          received route, as long as the gateway PE works in Uniform
+          Propagation Mode (as explained in Section 5.2) and the use of
           D-PATH is configured as described at the beginning of this
           section.
 
@@ -696,7 +695,7 @@ Table of Contents
           gateway PE yet.
 
    3.  For a local ISF route, i.e., a configured static route or a route
-       learned from a local attachment circuit, a gateway PE following
+       learned from a local Attachment Circuit, a gateway PE following
        this specification has three choices:
 
        *  The gateway PE advertises that ISF route without a D-PATH
@@ -934,7 +933,7 @@ Table of Contents
        SHOULD retain IBGP-only attributes (e.g., LOCAL_PREF,
        ORIGINATOR_ID, and CLUSTER_ID) from the original ISF route.  As
        the route is re-originated, the gateway PE is not required to
-       perform the Route Reflector function described in [RFC4456].
+       perform the RR function described in [RFC4456].
 
    4.  As stated in Item 1, the gateway PE SHOULD preserve the
        COMMUNITY, EXTENDED_COMMUNITY, and LARGE_COMMUNITY attributes
@@ -985,16 +984,16 @@ Table of Contents
    domains, a gateway PE that receives multiple ISF routes from a domain
    MAY choose to re-originate a single ISF aggregate route into a
    different domain.  In this document, aggregation is used to combine
-   the characteristics of multiple ISF routes in such way that a single
-   aggregate ISF route can be re-originated to the destination domain.
-   Aggregation of multiple ISF routes of one ISF SAFI into an aggregate
-   ISF route is only done by a gateway PE.
+   the characteristics of multiple ISF routes in such a way that a
+   single aggregate ISF route can be re-originated to the destination
+   domain.  Aggregation of multiple ISF routes of one ISF SAFI into an
+   aggregate ISF route is only done by a gateway PE.
 
-   Aggregation on gateway PEs may use either the No-Propagation-Mode or
-   the Uniform-Propagation-Mode explained in Sections 5.1 and 5.2,
+   Aggregation on gateway PEs may use either the No-Propagation Mode or
+   the Uniform Propagation Mode explained in Sections 5.1 and 5.2,
    respectively.
 
-   When using Uniform-Propagation-Mode, Path Attributes of the same type
+   When using Uniform Propagation Mode, Path Attributes of the same type
    code MAY be aggregated according to the following rules:
 
    *  AS_PATH is aggregated based on the rules in [RFC4271].  The
@@ -1031,7 +1030,7 @@ Table of Contents
    satisfied, operators SHOULD consider enabling aggregation in
    environments with large-scale tenant networks where a significant
    number of host routes are present.  This practice is particularly
-   applicable to deployments such as large-scale data centers.
+   applicable to deployments such as large-scale Data Centers.
 
 6.  Route Selection Process for ISF Routes
 
@@ -1140,7 +1139,7 @@ Table of Contents
 
    Figure 8 depicts an example of a composite domain, where PE1/PE2/PE4
    are composite PEs (they support EVPN and IPVPN ISF SAFIs on their
-   peering to the Route Reflector), and PE3 is a regular IPVPN PE.
+   peering to the RR), and PE3 is a regular IPVPN PE.
 
                 +-----------------------------------+
                 |                                   |
@@ -1174,37 +1173,36 @@ Table of Contents
    In a composite domain comprising both composite and regular PEs, the
    following behaviors apply:
 
-   Prefix Advertisement Consistency
+   Prefix Advertisement Consistency:
       Composite PEs MUST advertise the same IP prefixes using each ISF
-      SAFI to the Route Reflector (RR), assuming the same RR is used for
-      both ISF SAFIs.  For example, as shown in Figure 8, the prefix
-      IP1/24 is advertised by PE1 and PE2 to the Route Reflector in two
-      separate Network Layer Reachability Information (NLRI) entries:
-      one for AFI/SAFI 1/128 (IPVPN) and another for EVPN.  If both
-      routes are advertised with the same set of BGP Path Attributes,
-      the receiving composite PE will select the EVPN route over the
-      IPVPN route, following the route selection procedures defined in
-      Section 6.  Prioritizing the advertisement of the EVPN route
-      before the IPVPN route is an OPTIONAL optimization.  This ensures
-      that the EVPN route is more likely to be selected first, avoiding
-      unnecessary replacement if the IPVPN route arrives later.
+      SAFI to the RR, assuming the same RR is used for both ISF SAFIs.
+      For example, as shown in Figure 8, the prefix IP1/24 is advertised
+      by PE1 and PE2 to the RR in two separate Network Layer
+      Reachability Information (NLRI) entries: one for AFI/SAFI 1/128
+      (IPVPN) and another for EVPN.  If both routes are advertised with
+      the same set of BGP Path Attributes, the receiving composite PE
+      will select the EVPN route over the IPVPN route, following the
+      route selection procedures defined in Section 6.  Prioritizing the
+      advertisement of the EVPN route before the IPVPN route is an
+      OPTIONAL optimization.  This ensures that the EVPN route is more
+      likely to be selected first, avoiding unnecessary replacement if
+      the IPVPN route arrives later.
 
-   Route Reflector SAFI-Specific Forwarding Behavior
-      The Route Reflector does not forward EVPN routes to peers for
-      which the EVPN SAFI is not enabled and likewise does not forward
-      IPVPN routes to peers lacking IPVPN SAFI support.  For instance,
-      in Figure 8, the Route Reflector does not forward EVPN routes to
-      PE3 if the EVPN SAFI is not enabled on its BGP session with PE3.
-      However, the IPVPN routes are forwarded to all PEs since they all
-      have IPVPN SAFI enabled.
+   Route Reflector SAFI-Specific Forwarding Behavior:
+      The RR does not forward EVPN routes to peers for which the EVPN
+      SAFI is not enabled and likewise does not forward IPVPN routes to
+      peers lacking IPVPN SAFI support.  For instance, in Figure 8, the
+      RR does not forward EVPN routes to PE3 if the EVPN SAFI is not
+      enabled on its BGP session with PE3.  However, the IPVPN routes
+      are forwarded to all PEs since they all have IPVPN SAFI enabled.
 
-   IPVPN PE Route Processing
+   IPVPN PE Route Processing:
       Regular IPVPN PEs process and import IPVPN routes as specified in
       [RFC4364] and [RFC9252].  For example, PE3 receives only the IPVPN
       route for prefix IP1/24 and resolves the BGP next hop to an MPLS/
       SRv6 tunnel (with IP payload) toward PE1 and/or PE2.
 
-   Composite PE Route Selection
+   Composite PE Route Selection:
       Composite PEs MUST perform route selection for prefixes received
       via multiple ISF SAFIs, applying the procedures described in
       Section 6:
@@ -1223,12 +1221,12 @@ Table of Contents
          prefix via both EVPN and IPVPN SAFIs must also apply the route
          selection process defined in Section 6.
 
-   Forwarding Behavior Based on Selected Route
+   Forwarding Behavior Based on Selected Route:
       Once a route has been selected for a given IP prefix, packet
       forwarding MUST follow the forwarding rules associated with the
       AFI/SAFI of the selected route.
 
-   Applicability of EVPN Forwarding Enhancements
+   Applicability of EVPN Forwarding Enhancements:
       In composite domains such as the one depicted in Figure 8, the
       advanced forwarding features provided by EVPN are available only
       to composite and EVPN-capable PEs that select an EVPN IP Prefix
@@ -1246,8 +1244,8 @@ Table of Contents
 
    As defined in Section 3, a gateway PE is an Interworking PE that
    connects two or more domains and facilitates the re-origination of
-   ISF routes between those domains.  Typical examples include data
-   center gateway devices that interconnect domains utilizing different
+   ISF routes between those domains.  Typical examples include Data
+   Center gateway devices that interconnect domains utilizing different
    ISF SAFIs, such as EVPN and IPVPN, for the same tenant network.
 
    The gateway PE procedures specified in this document define the
@@ -1295,7 +1293,7 @@ Table of Contents
 
                         Figure 9: Gateway PE Example
 
-   Note: "tnls" refers to "tunnels"
+   Note: "tnls" refers to "tunnels".
 
    A gateway PE that is enabled for two ISF SAFIs, referred to here as
    SAFI x and SAFI y, on the same IP-VRF MUST follow the procedures
@@ -1308,7 +1306,7 @@ Table of Contents
        conditions are met:
 
        a.  The route for P is installed in the IP-VRF, indicating that
-           the SAFI x route is well formed, valid, and selected as the
+           the SAFI x route is well-formed, valid, and selected as the
            best route.
 
        b.  The PE has an active BGP session with a peer supporting SAFI
@@ -1327,7 +1325,7 @@ Table of Contents
        an IP-VRF MUST NOT export P using SAFI y under any of the
        following conditions:
 
-       a.  The SAFI x route is not well formed or valid.  Criteria for
+       a.  The SAFI x route is not well-formed or valid.  Criteria for
            route validity are defined in the corresponding ISF SAFI
            specification.  For example, an EVPN IP Prefix route that
            contains both a non-zero Ethernet Segment Identifier (ESI)
@@ -1443,7 +1441,7 @@ Table of Contents
 
         Figure 10: Gateway and Composite Combined Functions Example
 
-   Note: "tnls" refers to "tunnels"
+   Note: "tnls" refers to "tunnels".
 
    In Figure 10, PE1 and PE2 follow the procedures defined in Sections 7
    and 8.  Unlike the scenario described in Section 8, PE1 and PE2 are
@@ -1515,10 +1513,10 @@ Table of Contents
    [RFC4272], are relevant to this document.
 
    This document introduces the D-PATH Path Attribute (Section 4), which
-   provides a mechanism for control-plane loop prevention when ISF IPVPN
+   provides a mechanism for control plane loop prevention when ISF IPVPN
    and EVPN routes are re-originated across multiple domains via Gateway
    PEs.  When configured and supported correctly, the use of the D-PATH
-   attribute helps prevent both control-plane and data-plane loops.
+   attribute helps prevent both control plane and data plane loops.
    However, incorrect configuration of DOMAIN-ID values or inconsistent
    support for D-PATH among Gateway PEs may result in false-positive
    loop detection, traffic discarding, or suboptimal and inconsistent
@@ -1698,7 +1696,7 @@ Acknowledgments
    their reviews and suggestions.  Thanks to Sue Hares and Jeff Haas as
    well for their detailed reviews to clarify the procedures of the
    D-PATH attribute.  The authors want to also especially thank Gunter
-   van de Velde and Ketan Talaulikar for the thorough reviews that
+   Van de Velde and Ketan Talaulikar for the thorough reviews that
    helped raise the quality of the document significantly.
 
 Authors' Addresses
