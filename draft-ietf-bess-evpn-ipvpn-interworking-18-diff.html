@@ -29,15 +29,16 @@ Internet Engineering Task Force (IETF)</font></strong>                   J. Raba
 Abstract
 
    Ethernet Virtual Private Network (EVPN) provides a unified BGP
-   control plane for both <strike><font color='red'>intra-</font></strike> <strong><font color='green'>intra-subnet</font></strong> and inter-subnet forwarding <strong><font color='green'>(ISF)</font></strong>
-   within tenant networks.  When a tenant network spans multiple
-   domains, including any combination of EVPN and IPVPN domains, it
-   becomes necessary to define the interworking mechanisms among these
-   BGP domains (EVPN and IPVPN) to ensure seamless end-to-end tenant
-   connectivity.  This document defines these interworking procedures.
+   control plane for both <strike><font color='red'>intra-</font></strike> <strong><font color='green'>intra-subnet forwarding</font></strong> and inter-subnet
+   forwarding <strong><font color='green'>(ISF)</font></strong> within tenant networks.  When a tenant network spans
+   multiple domains, including any combination of EVPN and IPVPN
+   domains, it becomes necessary to define the interworking mechanisms
+   among these BGP domains (EVPN and IPVPN) to ensure seamless <strike><font color='red'>end-to-end</font></strike> <strong><font color='green'>end-to-
+   end</font></strong> tenant connectivity.  This document defines these interworking
+   procedures.
 
    In addition, this document defines a new BGP Path Attribute, referred
-   to as <strike><font color='red'>D-PATH (Domain PATH),</font></strike> <strong><font color='green'>Domain PATH (D-PATH),</font></strong> which provides loop prevention for
+   to as <strike><font color='red'>D-PATH (Domain PATH),</font></strike> <strong><font color='green'>the Domain Path (D-PATH),</font></strong> which provides loop prevention for
    gateway nodes by protecting against control plane loops.  The
    introduction of D-PATH modifies the BGP <strike><font color='red'>best path</font></strike> <strong><font color='green'>best-path</font></strong> selection process
    for Multiprotocol BGP <strike><font color='red'>inter-subnet forwarding</font></strike> <strong><font color='green'>ISF</font></strong> routes of <strike><font color='red'>SAFI</font></strike> <strong><font color='green'>Subsequent Address Family
@@ -117,10 +118,10 @@ Table of Contents
 1.  Introduction and Problem Statement
 
    EVPN is used as a unified BGP control plane to support both intra-
-   subnet and inter-subnet forwarding <strong><font color='green'>(ISF)</font></strong> for tenant networks.  In
-   deployments where a tenant network spans multiple domains, some of
-   which use <strike><font color='red'>EVPN,</font></strike> <strong><font color='green'>EVPN</font></strong> and others <strong><font color='green'>of</font></strong> which rely on BGP VPN-IPv4/VPN-IPv6
-   address families for inter-subnet forwarding, it becomes necessary to
+   subnet <strong><font color='green'>forwarding</font></strong> and inter-subnet forwarding <strong><font color='green'>(ISF)</font></strong> for tenant
+   networks.  In deployments where a tenant network spans multiple
+   domains, some of which use <strike><font color='red'>EVPN,</font></strike> <strong><font color='green'>EVPN</font></strong> and others <strong><font color='green'>of</font></strong> which rely on BGP <strike><font color='red'>VPN-IPv4/VPN-IPv6</font></strike> <strong><font color='green'>VPN-
+   IPv4/VPN-IPv6</font></strong> address families for <strike><font color='red'>inter-subnet forwarding,</font></strike> <strong><font color='green'>ISF,</font></strong> it becomes necessary to
    define interworking procedures to enable seamless end-to-end tenant
    connectivity across these heterogeneous domains.
 
@@ -134,8 +135,7 @@ Table of Contents
    To support loop prevention in scenarios where redundant gateway
    Provider Edges (PEs) interconnect distinct domains, this
    specification introduces a new BGP Path Attribute called the Domain
-   <strike><font color='red'>Path</font></strike>
-   <strong><font color='green'>PATH</font></strong> (D-PATH).  In topologies where multiple gateways connect
+   Path (D-PATH).  In topologies where multiple gateways connect
    domains, control plane loops may occur if routes are redistributed
    between domains without proper safeguards.  For example, if gateway
    PE1 imports an IPVPN route for a given prefix and redistributes it as
@@ -192,9 +192,9 @@ Table of Contents
       select the best path among candidates learned via EVPN and other
       ISF SAFIs.
 
-   *  A new BGP Path Attribute, referred to as <strike><font color='red'>the Domain Path (D-PATH)</font></strike> <strong><font color='green'>D-PATH</font></strong> attribute, which
-      provides loop prevention capabilities and conveys domain traversal
-      information for a given route.
+   *  A new BGP Path Attribute, referred to as the <strike><font color='red'>Domain Path (D-PATH)</font></strike> <strong><font color='green'>D-PATH</font></strong> attribute,
+      which provides loop prevention capabilities and conveys domain
+      traversal information for a given route.
 
    *  The rules governing BGP Path Attribute propagation across domains
       to maintain semantic consistency and enable cross-domain route
@@ -258,10 +258,11 @@ Table of Contents
    <strong><font color='green'>Note: "tnl" refers to "tunnel".</font></strong>
 
    AC:  <strong><font color='green'>An</font></strong> Attachment Circuit or logical interface associated to a given
-      BT or IP-VRF.  To determine the AC on which a packet arrived, the
-      PE will examine the combination of a physical port and VLAN tags
-      (where the VLAN tags can be individual VLAN tags, Q-in-Q tags or
-      ranges of both).
+      <strike><font color='red'>BT</font></strike>
+      <strong><font color='green'>Bridge Table (BT)</font></strong> or IP-VRF.  To determine the AC on which a
+      packet arrived, the PE will examine the combination of a physical
+      port and VLAN tags (where the VLAN tags can be individual VLAN
+      tags, Q-in-Q <strike><font color='red'>tags</font></strike> <strong><font color='green'>tags,</font></strong> or ranges of both).
 
       Example: In Figure 1, AC1 is associated to BT1, AC2 to <strike><font color='red'>BT2</font></strike> <strong><font color='green'>BT2,</font></strong> and
       AC3 to IP-VRF1.
@@ -286,7 +287,7 @@ Table of Contents
 
    <strike><font color='red'>*</font></strike>
 
-   Composite Domain:  a domain in which multiple control plane ISF
+   Composite Domain: <strike><font color='red'>a</font></strike>  <strong><font color='green'>A</font></strong> domain in which multiple control plane ISF
       SAFIs, i.e., IPVPN and/or EVPN, are used and <strike><font color='red'>which</font></strike> <strong><font color='green'>that</font></strong> is composed of
       regular PEs and composite <strike><font color='red'>PEs,</font></strike> <strong><font color='green'>PEs;</font></strong> see below.
 
@@ -302,12 +303,12 @@ Table of Contents
       EVPN).  A Composite PE implements the procedures defined in
       Section 7.
 
-      Example: Figure 2 shows an example where PE1 is a composite PE
+      Example: Figure 2 shows <strike><font color='red'>an example</font></strike> <strong><font color='green'>a scenario</font></strong> where PE1 is a composite PE
       since PE1 has EVPN and another ISF SAFI enabled to the same <strike><font color='red'>route-
       reflector,</font></strike> <strong><font color='green'>RR,</font></strong>
       and PE1 advertises a given IP prefix IPn/x twice, one using EVPN
-      and <strong><font color='green'>one</font></strong> another one using ISF SAFI 128.  PE2 and PE3 are not
-      composite PEs.
+      and another one using ISF SAFI 128.  PE2 and PE3 are not composite
+      PEs.
 
                                       +---+
                                       |PE2|
@@ -444,11 +445,11 @@ Table of Contents
 
    Gateway PE:  An Interworking PE that connects two or more distinct
       domains, where each domain may be either a regular domain or a
-      composite domain.  A Gateway PE may establish either IBGP
-      (Internal <strike><font color='red'>BGP [RFC4271])</font></strike> <strong><font color='green'>BGP) [RFC4271]</font></strong> or EBGP (External <strike><font color='red'>BGP [RFC4271])</font></strike> <strong><font color='green'>BGP) [RFC4271]</font></strong> sessions
-      with peers in the connected domains.  Depending on its
-      configuration, the Gateway PE performs one of the following
-      functions:
+      composite domain.  A Gateway PE may establish either <strike><font color='red'>IBGP
+      (Internal</font></strike> <strong><font color='green'>Internal</font></strong> BGP <strike><font color='red'>[RFC4271])</font></strike>
+      <strong><font color='green'>(IBGP) [RFC4271]</font></strong> or <strike><font color='red'>EBGP (External</font></strike> <strong><font color='green'>External</font></strong> BGP <strike><font color='red'>[RFC4271])</font></strike> <strong><font color='green'>(EBGP) [RFC4271]</font></strong> sessions with
+      peers in the connected domains.  Depending on its configuration,
+      the Gateway PE performs one of the following functions:
 
       <strike><font color='red'>-</font></strike>
 
@@ -489,10 +490,10 @@ Table of Contents
       route, either an EVPN MAC/IP Advertisement route or an EVPN IP
       Prefix route, and an IPVPN ISF route.  An Interworking PE
       maintains a single IP-VRF per tenant and zero, one, or more <strike><font color='red'>MAC-VRFs</font></strike> <strong><font color='green'>MAC-
-      VRFs</font></strong> per tenant.  Each MAC-VRF may include one or more Bridge
-      Tables (BTs), and each BT may be associated with the tenant's <strike><font color='red'>IP-VRF</font></strike> <strong><font color='green'>IP-
-      VRF</font></strong> via an Integrated Routing and Bridging (IRB) interface.  There
-      are two types of Interworking PEs:
+      VRFs</font></strong> per tenant.  Each MAC-VRF may include one or more <strike><font color='red'>Bridge Tables (BTs),</font></strike> <strong><font color='green'>BTs,</font></strong> and
+      each BT may be associated with the tenant's IP-VRF via an
+      Integrated Routing and Bridging (IRB) interface.  There are two
+      types of Interworking PEs:
 
       <strike><font color='red'>-</font></strike>
 
@@ -539,17 +540,16 @@ Table of Contents
    ISF SAFI: <strike><font color='red'>the Inter-Subnet Forwarding (ISF)</font></strike>  <strong><font color='green'>The inter-subnet forwarding</font></strong> Subsequent Address Family
       Identifier <strike><font color='red'>(SAFI)</font></strike> defines <strike><font color='red'>an MP-BGP (Multi Protocol Border
       Gateway Protocol [RFC4760]) Sub-Address</font></strike> <strong><font color='green'>a Multiprotocol BGP (MP-BGP) [RFC4760] Sub-
-      Address</font></strong> Family used to advertise IP prefix reachability for <strike><font color='red'>inter-subnet</font></strike> <strong><font color='green'>inter-
-      subnet</font></strong> forwarding within a tenant network.  The SAFIs used for ISF
-      include 1 (applicable only to IPv4 and IPv6 AFIs), 128 (applicable
-      only to IPv4 and IPv6 AFIs), and 70 (EVPN, applicable only to AFI
-      25).  The procedures defined in this document apply only to SAFI
-      128 and SAFI 70.  Accordingly, for the purposes of this document,
-      the term <strike><font color='red'>“ISF SAFI”</font></strike> <strong><font color='green'>"ISF SAFI"</font></strong> refers exclusively to SAFI 128 or SAFI 70.
-      The routes for these ISF SAFIs are referred to as IPVPN and EVPN
-      routes.  Note that the term <strike><font color='red'>“ISF SAFI”</font></strike> <strong><font color='green'>"ISF SAFI"</font></strong> does not define a new SAFI;
-      it is used solely as a collective reference to SAFI 128 and SAFI
-      70.
+      Address</font></strong> Family used to advertise IP prefix reachability for <strike><font color='red'>inter-subnet forwarding</font></strike> <strong><font color='green'>ISF</font></strong>
+      within a tenant network.  The SAFIs used for ISF include 1
+      (applicable only to IPv4 and IPv6 AFIs), 128 (applicable only to
+      IPv4 and IPv6 AFIs), and 70 (EVPN, applicable only to AFI 25).
+      The procedures defined in this document apply only to SAFI 128 and
+      SAFI 70.  Accordingly, for the purposes of this document, the term <strike><font color='red'>“ISF SAFI”</font></strike>
+      <strong><font color='green'>"ISF SAFI"</font></strong> refers exclusively to SAFI 128 or SAFI 70.  The routes
+      for these ISF SAFIs are referred to as IPVPN and EVPN routes.
+      Note that the term <strike><font color='red'>“ISF SAFI”</font></strike> <strong><font color='green'>"ISF SAFI"</font></strong> does not define a new SAFI; it is
+      used solely as a collective reference to SAFI 128 and SAFI 70.
 
    <strike><font color='red'>*</font></strike>
 
@@ -956,9 +956,9 @@ Table of Contents
           <strong><font color='green'>-</font></strong>  The length of the Domain Segment exceeds the remaining
              length of the enclosing D-PATH attribute.
 
-           <strike><font color='red'>*</font></strike>
+           <strike><font color='red'>*  Fewer</font></strike>
 
-          <strong><font color='green'>-</font></strong>  Fewer than <strike><font color='red'>eight</font></strike> <strong><font color='green'>8</font></strong> octets remain after the last successfully
+          <strong><font color='green'>-  Less</font></strong> than <strike><font color='red'>eight</font></strike> <strong><font color='green'>8</font></strong> octets remain after the last successfully
              parsed Domain Segment.
 
            <strike><font color='red'>*</font></strike>
@@ -1026,7 +1026,7 @@ Table of Contents
 
    This mode is suitable for deployment scenarios where the source
    domain <strike><font color='red'>-</font></strike> <strong><font color='green'>--</font></strong> for example, an EVPN domain <strike><font color='red'>-</font></strike> <strong><font color='green'>--</font></strong> is "abstracted" and treated
-   as a virtual <strike><font color='red'>CE,</font></strike> <strong><font color='green'>Customer Edge (CE),</font></strong> and where remote IPVPN or IP-based
+   as a virtual <strike><font color='red'>CE,</font></strike> <strong><font color='green'>Customer Edge (CE)</font></strong> and where remote IPVPN or IP-based
    PEs do not rely on the BGP Path Attributes of the source EVPN domain
    for best-path selection or the application of routing policy.
 
@@ -1107,7 +1107,7 @@ Table of Contents
            when the default propagation behavior needs to be overridden.
 
        The Gateway PE SHOULD NOT copy the above Extended Community types
-       in "a", "b" and "c" from the original ISF route into the re-
+       in "a", <strike><font color='red'>"b"</font></strike> <strong><font color='green'>"b",</font></strong> and "c" from the original ISF route into the re-
        advertised ISF route.  Certain Extended Communities may influence
        how the receiving PE processes the route.  Propagating such
        attributes into another domain could therefore lead to unintended
@@ -1768,16 +1768,18 @@ Table of Contents
 
    IANA has assigned a new attribute code type from the "BGP Path
    Attributes" registry in the "Border Gateway Protocol (BGP)
-   Parameters" registry <strike><font color='red'>group:</font></strike> <strong><font color='green'>group as follows:
+   Parameters" registry <strike><font color='red'>group:
 
-      +======================+==========================+===========+
-      |</font></strong> Path Attribute Value <strong><font color='green'>|</font></strong> Code                     <strong><font color='green'>|</font></strong> Reference
+   Path Attribute</font></strike> <strong><font color='green'>group as follows:
+
+             +=======+==========================+===========+
+             |</font></strong> Value <strong><font color='green'>|</font></strong> Code                     <strong><font color='green'>|</font></strong> Reference
    <strike><font color='red'>--------------------    ------------------------   ---------------</font></strike> <strong><font color='green'>|
-      +======================+==========================+===========+
-      |</font></strong> 36                   <strong><font color='green'>|</font></strong> BGP Domain Path (D-PATH)   <strike><font color='red'>[This document]</font></strike> <strong><font color='green'>| RFC XXXX  |
-      +----------------------+--------------------------+-----------+
+             +=======+==========================+===========+
+             |</font></strong> 36    <strong><font color='green'>|</font></strong> BGP Domain Path (D-PATH)   <strike><font color='red'>[This document]</font></strike> <strong><font color='green'>| RFC XXXX  |
+             +-------+--------------------------+-----------+
 
-                                  Table 2</font></strong>
+                                 Table 2</font></strong>
 
 13.  <strike><font color='red'>Acknowledgments
 

@@ -79,14 +79,14 @@ the title) for use on https://www.rfc-editor.org/search.
 
     <abstract>
       <t>Ethernet Virtual Private Network (EVPN) provides a unified BGP
-      control plane for both intra-subnet and inter-subnet forwarding (ISF) within tenant
+      control plane for both intra-subnet forwarding and inter-subnet forwarding (ISF) within tenant
       networks. When a tenant network spans multiple domains, including any
       combination of EVPN and IPVPN domains, it becomes necessary to define
       the interworking mechanisms among these BGP domains (EVPN and IPVPN) to
       ensure seamless end-to-end tenant connectivity. This document defines
       these interworking procedures.</t>
       <t>In addition, this document defines a new BGP Path Attribute, referred
-      to as Domain PATH (D-PATH), which provides loop prevention for gateway
+      to as the Domain Path (D-PATH), which provides loop prevention for gateway
       nodes by protecting against control plane loops. 
       
 <!--[rfced] In order to expand "SAFI" on its first mention, we updated the 
@@ -112,10 +112,10 @@ Current:
     <section anchor="sect-1" numbered="true" toc="default">
       <name>Introduction and Problem Statement</name>
       <t>EVPN is used as a unified BGP control plane to support both
-      intra-subnet and inter-subnet forwarding (ISF) for tenant networks. In
+      intra-subnet forwarding and inter-subnet forwarding (ISF) for tenant networks. In
       deployments where a tenant network spans multiple domains, some of which
       use EVPN and others of which rely on BGP VPN-IPv4/VPN-IPv6 address
-      families for inter-subnet forwarding, it becomes necessary to define
+      families for ISF, it becomes necessary to define
       interworking procedures to enable seamless end-to-end tenant
       connectivity across these heterogeneous domains.</t>
       <t>This document specifies procedures for interworking between EVPN and
@@ -126,7 +126,7 @@ Current:
       IPVPN domains, or an EVPN domain with an IPVPN domain.</t>
       <t>To support loop prevention in scenarios where redundant gateway
       Provider Edges (PEs) interconnect distinct domains, this specification
-      introduces a new BGP Path Attribute called the Domain PATH (D-PATH). In
+      introduces a new BGP Path Attribute called the Domain Path (D-PATH). In
       topologies where multiple gateways connect domains, control plane loops
       may occur if routes are redistributed between domains without proper
       safeguards. For example, if gateway PE1 imports an IPVPN route for a
@@ -182,7 +182,7 @@ Current:
           EVPN and other ISF SAFIs.</t>
         </li>
         <li>
-          <t>A new BGP Path Attribute, referred to as D-PATH
+          <t>A new BGP Path Attribute, referred to as the D-PATH
           attribute, which provides loop prevention capabilities and conveys
           domain traversal information for a given route.</t>
         </li>
@@ -218,7 +218,9 @@ Current:
       <t>This section summarizes the terminology related to the "Interworking
       PE" concept that will be used throughout the rest of the document.</t>
 
-<!--[rfced] We note that the term "Example" is included in all figure titles except for Figures 1 and 7. Would you like to make this consistent by adding "Example" to those figures?
+<!--[rfced] We note that the term "Example" is included in all figure titles 
+except for Figures 1 and 7. Would you like to make this consistent by adding 
+"Example" to those figures?
 -->      
       <figure anchor="evpn-ipvpn-interworking-pe">
         <name>EVPN-IPVPN Interworking PE</name>
@@ -252,9 +254,9 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
 <t>Note: "tnl" refers to "tunnel".</t>
       <dl spacing="normal" newline="false">
         <dt>AC:</dt><dd><t>An Attachment Circuit or logical interface associated to a given
-          BT or IP-VRF. To determine the AC on which a packet arrived, the PE
+          Bridge Table (BT) or IP-VRF. To determine the AC on which a packet arrived, the PE
           will examine the combination of a physical port and VLAN tags (where
-          the VLAN tags can be individual VLAN tags, Q-in-Q tags or ranges of
+          the VLAN tags can be individual VLAN tags, Q-in-Q tags, or ranges of
           both).</t>
           <t>Example: In <xref
           target="evpn-ipvpn-interworking-pe" format="default"/>, AC1 is
@@ -272,7 +274,7 @@ MPLS/NVO          | |  |Table(BT1)|    |    +-----------+  / \     \
           two BTs: BT1 and BT2. Ethernet Tag x is defined in BT1 and Ethernet
           Tag y in BT2.</t></dd>
         <dt>CE:</dt><dd>A Customer Edge device.</dd>
-        <dt>Composite Domain:</dt><dd>a domain in which multiple control plane ISF
+        <dt>Composite Domain:</dt><dd>A domain in which multiple control plane ISF
           SAFIs, i.e., IPVPN and/or EVPN, are used and that is composed of
           regular PEs and composite PEs; see below.</dd>
         <dt>Composite PE:</dt><dd><t>An Interworking PE that is connected to -- at least
@@ -302,9 +304,9 @@ Perhaps:
 
           <t>Example: <xref
           target="ure-interworking-composite-pe-example" format="default"/>
-          shows an example where PE1 is a composite PE since PE1 has EVPN and
+          shows a scenario where PE1 is a composite PE since PE1 has EVPN and
           another ISF SAFI enabled to the same RR, and PE1
-          advertises a given IP prefix IPn/x twice, one using EVPN and one
+          advertises a given IP prefix IPn/x twice, one using EVPN and
           another one using ISF SAFI 128. PE2 and PE3 are not composite PEs. </t>
           <figure anchor="ure-interworking-composite-pe-example">
             <name>Interworking Composite PE Example</name>
@@ -429,8 +431,8 @@ Perhaps:
           participating in that EVPN <xref target="RFC7432" format="default"/>.</dd>
        <dt>Gateway PE:</dt><dd><t>An Interworking PE that connects two or more distinct
           domains, where each domain may be either a regular domain or a
-          composite domain. A Gateway PE may establish either IBGP (Internal
-          BGP) <xref target="RFC4271" format="default"/> or EBGP (External BGP) <xref target="RFC4271" format="default"/> sessions with peers in the connected domains.
+          composite domain. A Gateway PE may establish either Internal
+          BGP (IBGP) <xref target="RFC4271" format="default"/> or External BGP (EBGP) <xref target="RFC4271" format="default"/> sessions with peers in the connected domains.
           Depending on its configuration, the Gateway PE performs one of the
           following functions:</t>
           <ul spacing="normal">
@@ -442,14 +444,14 @@ Perhaps:
  <!--[rfced] May we rephrase this sentence by moving "re-originates" for clarity 
  as shown below?
  
- Original:
-    Translates and re-originates an ISF route received with one
-    ISF SAFI to a domain that uses a different ISF SAFI.
+Original:
+   Translates and re-originates an ISF route received with one
+   ISF SAFI to a domain that uses a different ISF SAFI.
  
- Perhaps:
-    Translates an ISF route received via one ISF SAFI and 
-    re-originates it into a domain that uses a different 
-    ISF SAFI.
+Perhaps:
+   Translates an ISF route received via one ISF SAFI and 
+   re-originates it into a domain that uses a different 
+   ISF SAFI.
  -->             
               <t>Translates and re-originates an ISF route received with one
               ISF SAFI to a domain that uses a different ISF SAFI.</t>
@@ -481,7 +483,7 @@ Perhaps:
           Advertisement route or an EVPN IP Prefix route, and an IPVPN ISF
           route. An Interworking PE maintains a single IP-VRF per tenant and
           zero, one, or more MAC-VRFs per tenant. Each MAC-VRF may include one
-          or more Bridge Tables (BTs), and each BT may be associated with the
+          or more BTs, and each BT may be associated with the
           tenant's IP-VRF via an Integrated Routing and Bridging (IRB)
           interface. There are two types of Interworking PEs:</t>
           <ul spacing="normal">
@@ -513,7 +515,7 @@ Perhaps:
           Advertisement routes when they are programmed within an IP-VRF <xref target="RFC9135" format="default"/>, are considered ISF routes in this document.</dd>
        <dt>ISF SAFI:</dt><dd>The inter-subnet forwarding Subsequent Address
           Family Identifier defines a Multiprotocol BGP (MP-BGP) <xref target="RFC4760" format="default"/> Sub-Address Family used
-          to advertise IP prefix reachability for inter-subnet forwarding
+          to advertise IP prefix reachability for ISF
           within a tenant network. The SAFIs used for ISF include 1
           (applicable only to IPv4 and IPv6 AFIs), 128 (applicable only to
           IPv4 and IPv6 AFIs), and 70 (EVPN, applicable only to AFI 25). The
@@ -614,14 +616,16 @@ i.e., make "Last Domain" and "Domain of Origin" separate entries as
 shown below?
 
 Original:
-   "Last Domain" refers to the most recently added Domain, while "Domain of Origin" refers to the first Domain added by the gateway PE that initialized the D-PATH for the ISF route. Multiple Domains may exist between those Domains.
+   "Last Domain" refers to the most recently added Domain, while "Domain of Origin" 
+   refers to the first Domain added by the gateway PE that initialized the D-PATH 
+   for the ISF route. Multiple Domains may exist between those Domains.
 
 Perhaps:
    Last Domain: Refers to the most recently added Domain.
 
-   Domain of Origin: Refers to the first Domain added by the gateway PE that 
-   initialized the D-PATH for the ISF route. Multiple Domains may exist 
-   between the Last Domain and the Domain of Origin.
+   Domain of Origin: Refers to the first Domain added by the gateway PE 
+   that initialized the D-PATH for the ISF route. Multiple Domains may 
+   exist between the Last Domain and the Domain of Origin.
 -->
 
         <dt>"Last Domain"</dt><dd>refers to the most recently added
@@ -651,9 +655,9 @@ Perhaps:
           interworking is in place and that the route has traversed the
           expected domains using the intended ISF SAFIs in each domain. 
 
- <!--[rfced] Table 1 doesn't appear to match the "SAFI Values" registry. 
- May we make the following updates for consistency with the registry
- <https://www.iana.org/assignments/safi-namespace/>?
+ <!--[rfced] Table 1 doesn't match the "SAFI Values" registry  
+ <https://www.iana.org/assignments/safi-namespace/>. May we 
+ make the following updates for consistency with the registry?
 
  Also, would you like to add a title for Table 1? Perhaps "SAFI Values" 
  or "SAFI Values Registry"?
@@ -942,7 +946,7 @@ Perhaps:
                   length of the enclosing D-PATH attribute.</t>
                 </li>
                 <li>
-                  <t>Fewer than 8 octets remain after the last
+                  <t>Less than 8 octets remain after the last
                   successfully parsed Domain Segment.</t>
                 </li>
                 <li>
@@ -1006,7 +1010,7 @@ Perhaps:
         directly connected or locally originated IP prefix.</t>
         <t>This mode is suitable for deployment scenarios where the source
         domain -- for example, an EVPN domain -- is "abstracted" and treated as
-        a virtual Customer Edge (CE), and where remote IPVPN or IP-based PEs do not rely on
+        a virtual Customer Edge (CE) and where remote IPVPN or IP-based PEs do not rely on
         the BGP Path Attributes of the source EVPN domain for best-path
         selection or the application of routing policy.</t>
         <t>It is important to note that, in No-Propagation Mode, the D-PATH
@@ -1055,10 +1059,10 @@ Perhaps:
 <!--[rfced] For clarity, may we expand "AIGP" (Section 5.2) as shown below?
 
 Original:
-  * AIGP [RFC7311]
+   * AIGP [RFC7311]
 
 Perhaps:
-  * Accumulated IGP (AIGP) [RFC7311]
+   * Accumulated IGP (AIGP) [RFC7311]
 -->             
               <li>
                 <t>AIGP <xref target="RFC7311" format="default"/></t>
@@ -1109,7 +1113,7 @@ Perhaps:
               </li>
             </ol>
             <t>The Gateway PE <bcp14>SHOULD NOT</bcp14> copy the above Extended
-            Community types in "a", "b" and "c" from the original ISF route
+            Community types in "a", "b", and "c" from the original ISF route
             into the re-advertised ISF route. Certain Extended Communities may
             influence how the receiving PE processes the route. Propagating
             such attributes into another domain could therefore lead to
@@ -1266,11 +1270,11 @@ Perhaps:
         <t>Example 1: PE1 receives three candidate routes for prefix IP1/32, all eligible
         for import into IP-VRF-1:</t>
 
-<!-- [rfced] <artwork> Please review each artwork element and let us know if 
-any should be marked as sourcecode (or another element) instead.
+<!-- [rfced] Please review each artwork element and let us know if 
+any should be marked as sourcecode instead.
 
-If any should be marked as sourcecode, please consider whether the "type" 
-attribute should be set.
+If any should be marked as sourcecode, please consider whether the 
+"type" attribute should be set.
 
 The current list of preferred values for "type" is available at
 https://www.rfc-editor.org/materials/sourcecode-types.txt. If the current
@@ -1583,26 +1587,36 @@ IP1/24-->      |+------+  |             |+------+  |            |
           </li>
           <li>
 
-<!--[rfced] In Section 8.2, does the "Informative Note" (item g) relate 
-to item f, or does it relate to the entire list? If it relates to item f, 
-we suggest removing "g" as shown below. If it relates to the entire list, 
-please consider if "g" and the indentation should be removed.
+<!--[rfced] In Section 8.2, does the "Informative Note" relate to 
+number 6, or does it relate to the entire list? If it relates to 
+number 6, please consider removing "7" and keeping the indentation 
+(option A). If it relates to the entire list, please consider if 
+"7" and the indentation should be removed (option B).
 
-Original:
-   f. There is no restriction on the number of gateway PEs that a given 
+Current:
+   6. There is no restriction on the number of gateway PEs that a given 
       prefix P may traverse before reaching its destination.
 
-   g. Informative Note: If prefix P is originated in an EVPN domain and 
+   7. Informative Note: If prefix P is originated in an EVPN domain and 
       subsequently traverses one or more non-EVPN ISF SAFI domains, it 
       will lose EVPN-specific attributes ...
 
-Perhaps:
-   f. There is no restriction on the number of gateway PEs that a given 
+Perhaps A:
+   6. There is no restriction on the number of gateway PEs that a given 
       prefix P may traverse before reaching its destination.
 
       Informative Note: If prefix P is originated in an EVPN domain and 
       subsequently traverses one or more non-EVPN ISF SAFI domains, it 
       will lose EVPN-specific attributes ...
+
+or
+Perhaps B:
+   6. There is no restriction on the number of gateway PEs that a given 
+      prefix P may traverse before reaching its destination.
+
+   Informative Note: If prefix P is originated in an EVPN domain and 
+   subsequently traverses one or more non-EVPN ISF SAFI domains, it 
+   will lose EVPN-specific attributes ...
 -->            
             <t>Informative Note: If prefix P is originated in an EVPN domain
             and subsequently traverses one or more non-EVPN ISF SAFI domains,
@@ -1789,6 +1803,27 @@ TS1-|NVE1|             |             +----+  +------->|+------+ |
     </section>
     <section anchor="sect-13" numbered="true" toc="default">
       <name>IANA Considerations</name>
+
+<!--[rfced] D-PATH
+
+a) Please note that we updated instances of "Domain PATH (D-PATH)" 
+to "Domain Path (D-PATH)" to match use in the "BGP Path Attributes" 
+registry. Please let us know of any concerns.
+
+   Domain PATH (D-PATH) -> Domain Path (D-PATH)
+
+b) We note that the IANA Considerations section uses 
+"BGP Domain Path (D-PATH)", and there are three instances 
+of "BGP D-PATH attribute" in the running text. Should any other 
+instances of "D-PATH" or "D-PATH attribute" be preceded with 
+"BGP" for consistency with the "BGP Path Attributes" registry?
+
+   BGP D-PATH attribute vs. D-PATH attribute
+
+c) We note that both "D-PATH Path Attribute" and "D-PATH attribute" 
+are used. Is this variance okay, or would you like to make this 
+consistent?
+--> 
       <t>This document defines a new BGP Path Attribute known as the BGP
       D-PATH attribute.</t>
       <t>IANA has assigned a new attribute code type from the "BGP Path
@@ -1797,9 +1832,9 @@ TS1-|NVE1|             |             +----+  +------->|+------+ |
       <table>
 	<thead>
 	  <tr>
-	    <th>Path Attribute Value</th>
+	    <th>Value</th>
 	    <th>Code</th>
-            <th>Reference</th>
+      <th>Reference</th>
 	  </tr>
 	</thead>
 	<tbody>
@@ -1896,8 +1931,8 @@ they may be made consistent.
 
  IP Prefix vs. IP prefix
 
-b) Note that we updated the following terms for consistency. 
-Please let us know of any objections.
+b) Note that we updated the following terms to the form on the right 
+for consistency. Please let us know of any objections.
 
   attachment circuit -> Attachment Circuit (per RFC 9136)
   data center -> Data Center (Per RFC 9136)
@@ -1905,11 +1940,7 @@ Please let us know of any objections.
   Inter-Subnet Forwarding -> inter-subnet forwarding (per RFC 9136) 
   No-Propagation-Mode -> No-Propagation Mode
   Tunnel Encapsulation Attribute -> Tunnel Encapsulation attribute (per RFC 9012)
-  Uniform-Propagation-Mode -> Uniform Propagation Mode 
-
-c) We note that both "D-PATH Path Attribute" and "D-PATH attribute" 
-are used. Is this variance okay, or would you like to make this 
-consistent?
+  Uniform-Propagation-Mode -> Uniform Propagation Mode  
 -->
 
 
@@ -1924,6 +1955,7 @@ correctness.
   Data Center Interconnect (DCI) 
   Ethernet Segment Identifier (ESI)
   EVPN Instance (EVI) 
+  Media Access Control (MAC)
   Network Layer Reachability Information (NLRI) 
 
 b)  As recommended in the Web Portion of the Style Guide 
@@ -1946,7 +1978,6 @@ result in more precise language, which is helpful for readers.
 
 Note that our script did not flag any words in particular, but this should 
 still be reviewed as a best practice.
-
 -->
   </back>
 </rfc>
